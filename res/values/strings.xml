@@ -2,4 +2,6 @@
 <resources>
     <string name="hello">Hello World, ParseStarterProjectActivity!</string>
     <string name="app_name">Line Please</string>
+    <string name="or">OR</string>
+    <string name="add_button">+</string>
 </resources>
