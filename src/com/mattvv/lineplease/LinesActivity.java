@@ -221,15 +221,10 @@ public class LinesActivity extends Activity implements OnInitListener {
 
 						if (characterBox.equals(remoteCharacter)) {
 							Log.d("This is the line the user speaks", lineList.get(i).getString("line"));
-							
-							int count = 0;
-						    StringTokenizer stk=new StringTokenizer(lineList.get(i).getString("line")," ");
-						    	while(stk.hasMoreTokens()){
-						            stk.nextToken();
-						            count++;
-						        }
+							long silence = calculateSilence(lineList.get(i).getString("line"));
+
 						    whosSpeaking.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceKey);
-							lineSpeaker.playSilence(count * 520, TextToSpeech.QUEUE_ADD, whosSpeaking);
+							lineSpeaker.playSilence(silence, TextToSpeech.QUEUE_ADD, whosSpeaking);
 						} else {
 							Log.d("TTS will speak", lineList.get(i).getString("line"));
 							whosSpeaking.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceKey);
@@ -246,6 +241,19 @@ public class LinesActivity extends Activity implements OnInitListener {
 				}
 			}
 		});	
+	}
+	
+	public long calculateSilence(String line) {
+		//todo: experiment with a good algorithm for calculating the best silence time
+		int count = 0;
+	    StringTokenizer stk=new StringTokenizer(line," ");
+	    	while(stk.hasMoreTokens()){
+	            stk.nextToken();
+	            count++;
+	        }
+	    if (count == 1)
+	    	return 700; //return 0.7seconds for one word
+	    return count * 520; //return .52 seconds for each word
 	}
 
 	public void getMessageQuery() {
