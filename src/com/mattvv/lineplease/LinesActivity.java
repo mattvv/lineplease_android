@@ -6,14 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
+import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -58,14 +59,14 @@ public class LinesActivity extends Activity implements OnInitListener {
 		send.setOnClickListener(ButtonClickListeners);
 		Button play = (Button) findViewById(R.id.play);
 		play.setOnClickListener(ButtonClickListeners);
-		timer = new Timer();
+		/*timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
 				khandler.post(doUpdateView);
 			}
-		}, 0, 5000);
-		
+		}, 0, 5000);*/
+		getMessageQuery();
 		// setUpTable();
 	}
 	
@@ -77,10 +78,47 @@ public class LinesActivity extends Activity implements OnInitListener {
             if(isAvailable)
             {
                     EnumerateAvailableLanguages();
-                    //lineSpeaker.setOnUtteranceCompletedListener(onUtteranceCompleted);
+                    lineSpeaker.setOnUtteranceCompletedListener(new OnUtteranceCompletedListener() {
+
+                        @Override
+                        public void onUtteranceCompleted(String utteranceId) {
+                        	final String message = utteranceId;
+                            runOnUiThread(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                	if (message.equals("end")) {
+                                		getMessageQuery();
+                                	} else {
+                                		String[] messages = message.split("_");
+                                		boolean speak = true;
+                                		Log.d("Boolean", messages[1]);
+                                		
+                                		if (messages[1].equals("no"))
+                                			speak = false;
+                                		
+	                            		highlightLine(Integer.parseInt(messages[0]), speak);
+                                	}
+                                }
+                            });
+                        }
+                    });
+
+                    
                     ((Button)findViewById(R.id.play)).setEnabled(true);
             }
     }
+	
+	private void highlightLine(int line, boolean speak) {
+		LinearLayout lineLinearLayout = (LinearLayout) findViewById(R.id.messageLL);
+		TextView newLine = (TextView) lineLinearLayout.getChildAt(line);
+		Log.d("Message", newLine.getText().toString());
+		
+		if (speak)
+			newLine.setTextColor(Color.RED);
+		else
+			newLine.setTextColor(Color.BLUE);
+	}
 	
     private void EnumerateAvailableLanguages()
     {
@@ -138,16 +176,14 @@ public class LinesActivity extends Activity implements OnInitListener {
 				break;
 
 			case R.id.play:
-				playMessages();
+				playLines();
 				break;
 			}
 
 		}
 	};
 	
-	public void playMessages() {
-		final HashMap<String, String> hash = new HashMap<String, String>();
-		
+	public void playLines() {;
 		final EditText charactertxt = (EditText) findViewById(R.id.character);
 		
 		ParseQuery query = new ParseQuery("Line");
@@ -158,25 +194,53 @@ public class LinesActivity extends Activity implements OnInitListener {
 			public void done(List<ParseObject> lineList, ParseException e) {
 				if (e == null) {
 					for (int i = 0; i < lineList.size(); i++) {
+						HashMap<String, String> whosSpeaking = new HashMap<String, String>();
 						String characterBox = charactertxt.getText().toString().toLowerCase();
 						String remoteCharacter = lineList.get(i).getString("character").toString().toLowerCase();
+						
+						if (i == 0) {
+							//determine what color to highlight the first line
+							if (characterBox.equals(remoteCharacter))
+								highlightLine(0, true);
+							else
+								highlightLine(0, false);
+						}
+						String utteranceKey = Integer.toString(i);;
+						
+						if (i+1 < lineList.size()) {
+							String nextRemoteCharacter = lineList.get(i+1).getString("character").toString().toLowerCase();
+							utteranceKey = Integer.toString(i+1);
+							
+							if (characterBox.equals(nextRemoteCharacter))
+								utteranceKey += "_yes";
+							else
+								utteranceKey += "_no";
+						} else {
+							utteranceKey += "_no";
+						}
+
 						if (characterBox.equals(remoteCharacter)) {
-							Log.d("Not Speaking", lineList.get(i).getString("line"));
-							//todo: work out pause length of the string, and pause
-							//todo: add some gui stuff to say its your line #{character name}
+							Log.d("This is the line the user speaks", lineList.get(i).getString("line"));
+							
 							int count = 0;
 						    StringTokenizer stk=new StringTokenizer(lineList.get(i).getString("line")," ");
 						    	while(stk.hasMoreTokens()){
 						            stk.nextToken();
 						            count++;
 						        }
-							lineSpeaker.playSilence(count * 520, TextToSpeech.QUEUE_ADD, hash);
+						    whosSpeaking.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceKey);
+							lineSpeaker.playSilence(count * 520, TextToSpeech.QUEUE_ADD, whosSpeaking);
 						} else {
-							Log.d("Speaking", lineList.get(i).getString("line"));
-							//todo: add some gui stuff to show whos speaking
-							lineSpeaker.speak(lineList.get(i).getString("line"), TextToSpeech.QUEUE_ADD, hash);
+							Log.d("TTS will speak", lineList.get(i).getString("line"));
+							whosSpeaking.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceKey);
+							lineSpeaker.speak(lineList.get(i).getString("line"), TextToSpeech.QUEUE_ADD, whosSpeaking);
 						}
+						
 					}
+					HashMap<String, String> endSpeaking = new HashMap<String, String>();
+					endSpeaking.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"end");
+					lineSpeaker.playSilence(1, TextToSpeech.QUEUE_ADD, endSpeaking);
+					
 				} else {
 					Log.d("line", "Error: " + e.getMessage());
 				}
