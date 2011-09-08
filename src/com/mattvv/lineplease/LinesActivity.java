@@ -2,7 +2,6 @@ package com.mattvv.lineplease;
 
 import java.util.ArrayList;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -12,8 +11,6 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
@@ -29,10 +26,10 @@ import android.widget.Toast;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.starter.R;
+
+import com.mattvv.lineplease.R;
 
 public class LinesActivity extends Activity implements OnInitListener {
 	/** Called when the activity is first created. */

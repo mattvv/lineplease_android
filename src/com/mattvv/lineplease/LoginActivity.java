@@ -12,7 +12,7 @@ import com.mattvv.lineplease.helper.appkey;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.starter.R;
+import com.mattvv.lineplease.R;
 
 public class LoginActivity extends Activity {
 	/** Called when the activity is first created. */

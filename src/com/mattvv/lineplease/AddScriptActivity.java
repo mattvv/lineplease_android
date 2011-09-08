@@ -11,8 +11,7 @@ import android.widget.EditText;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-import com.parse.PushService;
-import com.parse.starter.R;
+import com.mattvv.lineplease.R;
 
 public class AddScriptActivity extends Activity {
 	/** Called when the activity is first created. */

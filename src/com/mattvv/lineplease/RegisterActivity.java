@@ -10,7 +10,8 @@ import android.widget.Toast;
 
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
-import com.parse.starter.R;
+
+import com.mattvv.lineplease.R;
 
 public class RegisterActivity extends Activity {
 	/** Called when the activity is first created. */

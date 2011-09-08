@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.parse.starter;
+package com.mattvv.lineplease;
 
 public final class R {
     public static final class attr {
