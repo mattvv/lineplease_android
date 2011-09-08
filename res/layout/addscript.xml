@@ -1,0 +1,7 @@
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:id="@+id/linearLayout1" android:layout_height="fill_parent" android:weightSum="1" android:layout_width="fill_parent">
+        <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:text="Create a New Script" android:layout_height="wrap_content" android:id="@+id/textView1" android:layout_width="wrap_content"></TextView>
+        <EditText android:id="@+id/name" android:layout_width="fill_parent" android:layout_height="wrap_content"></EditText>
+        <Button android:layout_height="wrap_content" android:id="@+id/skip" android:text="View Existing Scripts" android:layout_weight="0.01" android:layout_width="wrap_content"></Button>
+        <Button android:id="@+id/add" android:text="Add a New Script" android:layout_height="wrap_content" android:layout_width="173dp"></Button>
+    </LinearLayout>
