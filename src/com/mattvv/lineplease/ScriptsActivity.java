@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -104,6 +105,9 @@ public class ScriptsActivity extends Activity {
 		//delete the script
 		
 		//todo: show a loading indicator
+		final ProgressDialog dialog = ProgressDialog.show(this, "", 
+                "Deleting. Please wait...", true);
+		dialog.show();
 		ParseQuery query = new ParseQuery("Script");
 		try {
 		    ParseObject script = query.get(scriptId);
@@ -114,6 +118,7 @@ public class ScriptsActivity extends Activity {
                         @Override
                         public void run() {
                         	refreshScripts();
+                        	dialog.hide();
                         }
 		        	});
 		        }
