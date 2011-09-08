@@ -158,7 +158,9 @@ public class LinesActivity extends Activity implements OnInitListener {
 			public void done(List<ParseObject> lineList, ParseException e) {
 				if (e == null) {
 					for (int i = 0; i < lineList.size(); i++) {
-						if (charactertxt.getText().toString().equals(lineList.get(i).getString("character").toString())) {
+						String characterBox = charactertxt.getText().toString().toLowerCase();
+						String remoteCharacter = lineList.get(i).getString("character").toString().toLowerCase();
+						if (characterBox.equals(remoteCharacter)) {
 							Log.d("Not Speaking", lineList.get(i).getString("line"));
 							//todo: work out pause length of the string, and pause
 							//todo: add some gui stuff to say its your line #{character name}
