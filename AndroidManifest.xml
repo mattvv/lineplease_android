@@ -16,7 +16,7 @@
 		<activity android:name=".RegisterActivity" />
 		<activity android:name="ScriptsActivity" />
 		<activity android:name="AddScriptActivity" />
-		<activity android:name="com.mattvv.lineplase.LinesActivity" />
+		<activity android:name="com.mattvv.lineplease.LinesActivity" />
 
 
 

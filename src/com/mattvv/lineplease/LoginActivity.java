@@ -1,4 +1,4 @@
-package com.mattvv.lineplase;
+package com.mattvv.lineplease;
 
 import android.app.Activity;
 import android.content.Intent;
