@@ -19,6 +19,7 @@ import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -116,6 +117,8 @@ public class LinesActivity extends Activity implements OnInitListener {
 		
 		if (newLine == null)
 			return;
+		
+		listView.setSelection(line);
 		
 		if (speak)
 			newLine.setTextColor(Color.RED);
