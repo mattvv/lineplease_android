@@ -7,7 +7,7 @@
 	<TextView android:textAppearance="?android:attr/textAppearanceLarge"
 		android:text="Username:" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:id="@+id/textView1"></TextView>
-	<EditText android:id="@+id/username" android:layout_width="fill_parent" android:text="matt"
+	<EditText android:id="@+id/username" android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
 		<requestFocus></requestFocus>
 
@@ -16,7 +16,7 @@
 		android:text="Password:" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:id="@+id/textView1"></TextView>
 
-	<EditText android:id="@+id/password" android:layout_width="fill_parent" android:text="test"
+	<EditText android:id="@+id/password" android:layout_width="fill_parent" 
 		android:layout_height="wrap_content" android:inputType="textPassword"></EditText>
 	<Button android:text="Login" android:id="@+id/login"
 		android:layout_width="120dp" android:layout_height="wrap_content"></Button>
