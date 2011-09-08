@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,15 +56,18 @@ public class AddScriptActivity extends Activity {
 		EditText name = (EditText) findViewById(R.id.name);
 		ParseUser currentUser = ParseUser.getCurrentUser();
 
-
+		Log.d("Adding Script", ":" + name.getText() + ":");
+		
+		if (name.getText().toString().equals("") || name.getText().toString().equals(" ")) 
+			return; // dont allow empty strings
+			
 		ParseObject script = new ParseObject("Script");
 		script.put("username", currentUser.getUsername());
 		script.put("name", name.getText().toString());
 		try {
 			script.save();
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+				e1.printStackTrace();
 		}
 	}
 }
