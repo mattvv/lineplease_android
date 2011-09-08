@@ -68,7 +68,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 		Button play = (Button) findViewById(R.id.play);
 		play.setOnClickListener(ButtonClickListeners);
 		
-		//listView = (ListView) findViewById(R.id.listview);
+		listView = (ListView) findViewById(R.id.listviewlines);
 		getMessageQuery();
 	}
 	
@@ -251,7 +251,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 
 		ParseQuery query = new ParseQuery("Line");
 		query.whereEqualTo("scriptId", scriptId);
-		query.orderByDescending("updated_at");
+		query.orderByDescending("createdAt");
 		query.findInBackground(new FindCallback() {
 			@Override
 			public void done(List<ParseObject> lineList, ParseException e) {
@@ -274,7 +274,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 	}
 	
 	public void setListView() {
-		//listView.setAdapter(new ArrayAdapter<String>(this, R.layout.listviewrow, lines));
+		listView.setAdapter(new ArrayAdapter<String>(this, R.layout.listviewrow, lines));
 		listView.setOnItemClickListener(itemclicklistener);
 		listView.setOnItemLongClickListener(longClickListener);
 	}
