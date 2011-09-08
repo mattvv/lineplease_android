@@ -10,6 +10,7 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -18,9 +19,12 @@ import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +41,8 @@ public class LinesActivity extends Activity implements OnInitListener {
 	ParseUser user;
 	ParseObject line;
 	public static String scriptId;
+	
+	ListView listView;
 	Context ctx;
 
 	Timer timer;
@@ -44,6 +50,8 @@ public class LinesActivity extends Activity implements OnInitListener {
 	Handler khandler;
 	private TextToSpeech lineSpeaker = null;
 	private ArrayList<Locale> availableLocales = null;
+	private ArrayList<String> lines = null;
+	private ArrayList<String> lineIds = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,15 +67,9 @@ public class LinesActivity extends Activity implements OnInitListener {
 		send.setOnClickListener(ButtonClickListeners);
 		Button play = (Button) findViewById(R.id.play);
 		play.setOnClickListener(ButtonClickListeners);
-		/*timer = new Timer();
-		timer.scheduleAtFixedRate(new TimerTask() {
-			@Override
-			public void run() {
-				khandler.post(doUpdateView);
-			}
-		}, 0, 5000);*/
+		
+		//listView = (ListView) findViewById(R.id.listview);
 		getMessageQuery();
-		// setUpTable();
 	}
 	
 	@Override
@@ -110,14 +112,15 @@ public class LinesActivity extends Activity implements OnInitListener {
     }
 	
 	private void highlightLine(int line, boolean speak) {
-		LinearLayout lineLinearLayout = (LinearLayout) findViewById(R.id.messageLL);
-		TextView newLine = (TextView) lineLinearLayout.getChildAt(line);
-		Log.d("Message", newLine.getText().toString());
+		//LinearLayout lineLinearLayout = (LinearLayout) findViewById(R.id.messageLL);
+		//TextView newLine = (TextView) lineLinearLayout.getChildAt(line);
 		
-		if (speak)
-			newLine.setTextColor(Color.RED);
-		else
-			newLine.setTextColor(Color.BLUE);
+		//Log.d("Message", newLine.getText().toString());
+		
+		//if (speak)
+		//	newLine.setTextColor(Color.RED);
+		//else
+		//	newLine.setTextColor(Color.BLUE);
 	}
 	
     private void EnumerateAvailableLanguages()
@@ -135,7 +138,7 @@ public class LinesActivity extends Activity implements OnInitListener {
             }
     }	
 
-	public void setUpTable() {
+	public void saveLine() {
 		EditText linetxt = (EditText) findViewById(R.id.line);
 		EditText charactertxt = (EditText) findViewById(R.id.character);
 
@@ -159,19 +162,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.send:
-				setUpTable();
-
-				EditText linetxt = (EditText) findViewById(R.id.line);
-				EditText charactertxt = (EditText) findViewById(R.id.character);
-				line.put("character", charactertxt.getText().toString());
-				line.put("line", linetxt.getText().toString());
-				try {
-					line.save();
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
+				saveLine();
 				getMessageQuery();
 				break;
 
@@ -264,32 +255,15 @@ public class LinesActivity extends Activity implements OnInitListener {
 		query.findInBackground(new FindCallback() {
 			@Override
 			public void done(List<ParseObject> lineList, ParseException e) {
-				LinearLayout lineLinearLayout = (LinearLayout) findViewById(R.id.messageLL);
-				ArrayList<String> lineReversed = new ArrayList<String>();
-
-				lineLinearLayout.removeAllViews();
+				lines = new ArrayList<String>();
+				lineIds = new ArrayList<String>();
 
 				if (e == null) {
-
-					for (int i = 0; i < lineList.size(); i++)
-						lineReversed.add(lineList.get(i).getString("character") + ":     " + lineList.get(i).getString("line"));
-					//Collections.reverse(lineReversed);
-
-					for (int j = 0; j < lineReversed.size(); j++) {
-						TextView newLine = new TextView(ctx);
-
-						newLine.setText(lineReversed.get(j));
-						// Log.e("coming here", "before" + currentUser + "---" +
-						// scoreList.get(i).getString("sender"));
-						newLine.setTextSize(20);
-						lineLinearLayout.addView(newLine);
-
+					for (int i = 0; i < lineList.size(); i++) {
+						lines.add(lineList.get(i).getString("character") + ":     " + lineList.get(i).getString("line"));
+						lineIds.add(lineList.get(i).objectId());
 					}
-
-					lineLinearLayout.invalidate();
-					// Toast.makeText(ChatModeActivity.this, "COOL SUCCESS" +
-					// "---" + scoreList.size(), Toast.LENGTH_LONG).show();
-
+					setListView();
 				} else {
 					Log.d("line", "Error: " + e.getMessage());
 					Toast.makeText(LinesActivity.this, "BAD FAILED", Toast.LENGTH_LONG).show();
@@ -298,13 +272,37 @@ public class LinesActivity extends Activity implements OnInitListener {
 		});
 
 	}
+	
+	public void setListView() {
+		//listView.setAdapter(new ArrayAdapter<String>(this, R.layout.listviewrow, lines));
+		listView.setOnItemClickListener(itemclicklistener);
+		listView.setOnItemLongClickListener(longClickListener);
+	}
+	
+	AdapterView.OnItemClickListener itemclicklistener = new AdapterView.OnItemClickListener() {
 
-	final Runnable doUpdateView = new Runnable() {
 		@Override
-		public void run() {
-			getMessageQuery();
+		public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+
+			//todo: edit lines popup
+			
+			//LinesActivity.scriptId = lineIds.get(position);
+			//Intent intent = new Intent(view.getContext(), LinesActivity.class);
+			//startActivityForResult(intent, 0);
+
 		}
 
 	};
+	
+	AdapterView.OnItemLongClickListener longClickListener = new AdapterView.OnItemLongClickListener() {
+		@Override
+		public boolean onItemLongClick(AdapterView<?> parent, final View view, int position, long id) {
+			Toast.makeText(ctx, "Pressed Delete", Toast.LENGTH_LONG);
+			//deleteScript(position);
+			return true;
+		}
 
+	};
+	
+	
 }

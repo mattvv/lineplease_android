@@ -74,6 +74,8 @@ public class ScriptsActivity extends Activity {
 	}
 
 	public void setListView() {
+		Log.d("script", "Error: attempting to set adapter, scriptNames size:");
+		Log.d("script", "scriptNames: " + scriptNames.size());
 		listView.setAdapter(new ArrayAdapter<String>(this, R.layout.listviewrow, scriptNames));
 		listView.setOnItemClickListener(itemclicklistener);
 		listView.setOnItemLongClickListener(longClickListener);

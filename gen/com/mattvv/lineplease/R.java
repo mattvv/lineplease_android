@@ -22,10 +22,9 @@ public final class R {
         public static final int email=0x7f060008;
         public static final int line=0x7f06000c;
         public static final int linearLayout1=0x7f060000;
-        public static final int listview=0x7f060016;
+        public static final int listview=0x7f060010;
         public static final int login=0x7f060011;
         public static final int logout=0x7f060014;
-        public static final int messageLL=0x7f060010;
         public static final int name=0x7f060002;
         public static final int password=0x7f060007;
         public static final int play=0x7f06000e;
