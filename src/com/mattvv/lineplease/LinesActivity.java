@@ -112,15 +112,12 @@ public class LinesActivity extends Activity implements OnInitListener {
     }
 	
 	private void highlightLine(int line, boolean speak) {
-		//LinearLayout lineLinearLayout = (LinearLayout) findViewById(R.id.messageLL);
-		//TextView newLine = (TextView) lineLinearLayout.getChildAt(line);
+		TextView newLine = (TextView) listView.getChildAt(line);
 		
-		//Log.d("Message", newLine.getText().toString());
-		
-		//if (speak)
-		//	newLine.setTextColor(Color.RED);
-		//else
-		//	newLine.setTextColor(Color.BLUE);
+		if (speak)
+			newLine.setTextColor(Color.RED);
+		else
+			newLine.setTextColor(Color.BLUE);
 	}
 	
     private void EnumerateAvailableLanguages()
@@ -251,7 +248,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 
 		ParseQuery query = new ParseQuery("Line");
 		query.whereEqualTo("scriptId", scriptId);
-		query.orderByDescending("createdAt");
+		query.orderByAscending("createdAt");
 		query.findInBackground(new FindCallback() {
 			@Override
 			public void done(List<ParseObject> lineList, ParseException e) {
@@ -260,7 +257,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 
 				if (e == null) {
 					for (int i = 0; i < lineList.size(); i++) {
-						lines.add(lineList.get(i).getString("character") + ":     " + lineList.get(i).getString("line"));
+						lines.add(lineList.get(i).getString("character").toUpperCase() + "\n" + lineList.get(i).getString("line"));
 						lineIds.add(lineList.get(i).objectId());
 					}
 					setListView();

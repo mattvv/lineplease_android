@@ -13,9 +13,13 @@
         <Button android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="wrap_content" android:id="@+id/send" android:text="+"></Button>
         <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/play" android:text="|>"></Button>
     </LinearLayout>
-	<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-		android:id="@+id/scroller" android:layout_width="fill_parent"
-		android:layout_height="fill_parent" android:fillViewport="true">
+	<ScrollView 
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/scroller" 
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent" 
+		android:fillViewport="true"
+		>
 		<ListView android:id="@+id/listviewlines" android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:layout_width="fill_parent"
