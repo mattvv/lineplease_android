@@ -114,6 +114,9 @@ public class LinesActivity extends Activity implements OnInitListener {
 	private void highlightLine(int line, boolean speak) {
 		TextView newLine = (TextView) listView.getChildAt(line);
 		
+		if (newLine == null)
+			return;
+		
 		if (speak)
 			newLine.setTextColor(Color.RED);
 		else
