@@ -37,10 +37,10 @@ public class ScriptsActivity extends Activity {
 		ctx = this;
 		listView = (ListView) findViewById(R.id.listview);
 
-		setOngoingChatArray();
+		getScripts();
 	}
 
-	public void setOngoingChatArray() {
+	public void getScripts() {
 		scriptNames = new ArrayList<String>();
 		scriptIds = new ArrayList<String>();
 

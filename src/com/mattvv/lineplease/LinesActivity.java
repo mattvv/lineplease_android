@@ -220,13 +220,13 @@ public class LinesActivity extends Activity implements OnInitListener {
 						}
 
 						if (characterBox.equals(remoteCharacter)) {
-							Log.d("This is the line the user speaks", lineList.get(i).getString("line"));
+							//User speaks this line so we play silence
 							long silence = calculateSilence(lineList.get(i).getString("line"));
 
 						    whosSpeaking.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceKey);
 							lineSpeaker.playSilence(silence, TextToSpeech.QUEUE_ADD, whosSpeaking);
 						} else {
-							Log.d("TTS will speak", lineList.get(i).getString("line"));
+							//We speak this line
 							whosSpeaking.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceKey);
 							lineSpeaker.speak(lineList.get(i).getString("line"), TextToSpeech.QUEUE_ADD, whosSpeaking);
 						}
