@@ -1,7 +1,13 @@
 
 <LinearLayout android:id="@+id/linearLayout1"
-	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="#FFFFFF"
 	xmlns:android="http://schemas.android.com/apk/res/android">
 	<ListView android:id="@+id/listview" android:layout_height="wrap_content"
-		android:layout_weight="1" android:layout_width="fill_parent"></ListView>
+		android:layout_weight="1"
+		android:layout_width="fill_parent"
+		android:divider="#666666"
+		android:background="#FFFFFF"
+	></ListView>
 </LinearLayout>

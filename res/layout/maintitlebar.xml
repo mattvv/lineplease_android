@@ -1,8 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="80dp"
-	android:orientation="horizontal" android:paddingLeft="5dp">
+	android:orientation="horizontal" android:paddingLeft="5dp"
+	android:background="#FFFFFF">
 	<TextView android:textAppearance="?android:attr/textAppearanceMedium" android:paddingTop="8dp"
-		android:text="Ringadoc .^_^." android:layout_width="wrap_content"
+		android:text="Line Please" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:id="@+id/titleName"></TextView>
 
 	<Button android:text="Add" android:layout_width="wrap_content"
