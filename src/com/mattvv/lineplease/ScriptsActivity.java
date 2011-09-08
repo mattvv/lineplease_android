@@ -89,7 +89,6 @@ public class ScriptsActivity extends Activity {
 		       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		           public void onClick(DialogInterface dialog, int id) {
 		                removeScriptRemote(scriptId);
-		                refreshScripts();
 		           }
 		       })
 		       .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -110,8 +109,13 @@ public class ScriptsActivity extends Activity {
 		    ParseObject script = query.get(scriptId);
 		    script.deleteInBackground(new DeleteCallback() {
 		        public void done(ParseException e) {
-		        	//todo: close a loading indicator
-		        	refreshScripts();
+		        	runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                        	refreshScripts();
+                        }
+		        	});
 		        }
 		    });
 		} catch (ParseException e) {
