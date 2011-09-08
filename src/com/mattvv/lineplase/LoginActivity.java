@@ -1,4 +1,4 @@
-package com.parse.starter;
+package com.mattvv.lineplase;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,10 +8,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.mattvv.lineplease.helper.appkey;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.starter.helper.appkey;
+import com.parse.starter.R;
 
 public class LoginActivity extends Activity {
 	/** Called when the activity is first created. */

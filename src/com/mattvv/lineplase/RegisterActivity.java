@@ -1,4 +1,4 @@
-package com.parse.starter;
+package com.mattvv.lineplase;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+import com.parse.starter.R;
 
 public class RegisterActivity extends Activity {
 	/** Called when the activity is first created. */

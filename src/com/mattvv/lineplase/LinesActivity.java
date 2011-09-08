@@ -1,4 +1,4 @@
-package com.parse.starter;
+package com.mattvv.lineplase;
 
 import java.util.ArrayList;
 
@@ -32,6 +32,7 @@ import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.starter.R;
 
 public class LinesActivity extends Activity implements OnInitListener {
 	/** Called when the activity is first created. */

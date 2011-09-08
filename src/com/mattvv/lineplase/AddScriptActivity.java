@@ -1,4 +1,4 @@
-package com.parse.starter;
+package com.mattvv.lineplase;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,6 +12,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.PushService;
+import com.parse.starter.R;
 
 public class AddScriptActivity extends Activity {
 	/** Called when the activity is first created. */

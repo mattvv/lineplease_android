@@ -1,4 +1,4 @@
-package com.parse.starter;
+package com.mattvv.lineplase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +21,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.PushService;
+import com.parse.starter.R;
 
 public class ScriptsActivity extends Activity {
 	/** Called when the activity is first created. */

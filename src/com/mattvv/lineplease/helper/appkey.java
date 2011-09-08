@@ -1,4 +1,4 @@
-package com.parse.starter.helper;
+package com.mattvv.lineplease.helper;
 
 import android.content.Context;
 
