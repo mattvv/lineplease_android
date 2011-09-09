@@ -10,7 +10,6 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -19,12 +18,10 @@ import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +50,9 @@ public class LinesActivity extends Activity implements OnInitListener {
 	private ArrayList<Locale> availableLocales = null;
 	private ArrayList<String> lines = null;
 	private ArrayList<String> lineIds = null;
+	private ArrayList<String> characters = null;
+	private ArrayList<String> lineSpeech = null;
+	private String selectedCharacter = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -118,7 +118,9 @@ public class LinesActivity extends Activity implements OnInitListener {
 		if (newLine == null)
 			return;
 		
+		
 		listView.setSelection(line);
+		Log.d("HighlightLine", "Highlighting line " + line + " " + newLine.getText().toString());
 		
 		if (speak)
 			newLine.setTextColor(Color.RED);
@@ -143,11 +145,10 @@ public class LinesActivity extends Activity implements OnInitListener {
 
 	public void saveLine() {
 		EditText linetxt = (EditText) findViewById(R.id.line);
-		EditText charactertxt = (EditText) findViewById(R.id.character);
-
+		
 		line = new ParseObject("Line");
 
-		line.put("character", charactertxt.getText().toString());
+		line.put("character", selectedCharacter);
 		line.put("scriptId", scriptId);
 		line.put("line", linetxt.getText().toString());
 		
@@ -163,6 +164,8 @@ public class LinesActivity extends Activity implements OnInitListener {
 
 		@Override
 		public void onClick(View v) {
+			EditText charactertxt = (EditText) findViewById(R.id.character);
+			selectedCharacter = charactertxt.getText().toString();
 			switch (v.getId()) {
 			case R.id.send:
 				saveLine();
@@ -178,63 +181,46 @@ public class LinesActivity extends Activity implements OnInitListener {
 	};
 	
 	public void playLines() {;
-		final EditText charactertxt = (EditText) findViewById(R.id.character);
-		
-		ParseQuery query = new ParseQuery("Line");
-		query.whereEqualTo("scriptId", scriptId);
-		query.orderByDescending("updated_at");
-		query.findInBackground(new FindCallback() {
-			@Override
-			public void done(List<ParseObject> lineList, ParseException e) {
-				if (e == null) {
-					for (int i = 0; i < lineList.size(); i++) {
-						HashMap<String, String> whosSpeaking = new HashMap<String, String>();
-						String characterBox = charactertxt.getText().toString().toLowerCase();
-						String remoteCharacter = lineList.get(i).getString("character").toString().toLowerCase();
-						
-						if (i == 0) {
-							//determine what color to highlight the first line
-							if (characterBox.equals(remoteCharacter))
-								highlightLine(0, true);
-							else
-								highlightLine(0, false);
-						}
-						String utteranceKey = Integer.toString(i);;
-						
-						if (i+1 < lineList.size()) {
-							String nextRemoteCharacter = lineList.get(i+1).getString("character").toString().toLowerCase();
-							utteranceKey = Integer.toString(i+1);
-							
-							if (characterBox.equals(nextRemoteCharacter))
-								utteranceKey += "_yes";
-							else
-								utteranceKey += "_no";
-						} else {
-							utteranceKey += "_no";
-						}
+		for (int i = 0; i < characters.size(); i++) {
+			HashMap<String, String> whosSpeaking = new HashMap<String, String>();
+			String remoteCharacter = characters.get(i);
 
-						if (characterBox.equals(remoteCharacter)) {
-							//User speaks this line so we play silence
-							long silence = calculateSilence(lineList.get(i).getString("line"));
-
-						    whosSpeaking.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceKey);
-							lineSpeaker.playSilence(silence, TextToSpeech.QUEUE_ADD, whosSpeaking);
-						} else {
-							//We speak this line
-							whosSpeaking.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceKey);
-							lineSpeaker.speak(lineList.get(i).getString("line"), TextToSpeech.QUEUE_ADD, whosSpeaking);
-						}
-						
-					}
-					HashMap<String, String> endSpeaking = new HashMap<String, String>();
-					endSpeaking.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"end");
-					lineSpeaker.playSilence(1, TextToSpeech.QUEUE_ADD, endSpeaking);
-					
-				} else {
-					Log.d("line", "Error: " + e.getMessage());
-				}
+			if (i == 0) {
+				//determine what color to highlight the first line
+				if (selectedCharacter.equals(remoteCharacter))
+					highlightLine(0, true);
+				else
+					highlightLine(0, false);
 			}
-		});	
+			String utteranceKey = Integer.toString(i);
+						
+			if (i+1 < characters.size()) {
+				String nextRemoteCharacter = characters.get(i+1);
+				utteranceKey = Integer.toString(i+1);
+				Log.d("UKey", utteranceKey);
+				if (selectedCharacter.equals(nextRemoteCharacter))
+					utteranceKey += "_yes";
+				else
+					utteranceKey += "_no";
+			} else {
+				utteranceKey += "_no";
+			}
+			whosSpeaking.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceKey);
+							
+			if (selectedCharacter.equals(remoteCharacter)) {
+				//User speaks this line so we play silence
+				long silence = calculateSilence(lineSpeech.get(i));
+				
+				lineSpeaker.playSilence(silence, TextToSpeech.QUEUE_ADD, whosSpeaking);
+			} else {
+				//We speak this line
+				lineSpeaker.speak(lineSpeech.get(i), TextToSpeech.QUEUE_ADD, whosSpeaking);
+			}
+										
+			HashMap<String, String> endSpeaking = new HashMap<String, String>();
+			endSpeaking.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"end");
+			lineSpeaker.playSilence(1, TextToSpeech.QUEUE_ADD, endSpeaking);	
+		}	
 	}
 	
 	public long calculateSilence(String line) {
@@ -260,11 +246,15 @@ public class LinesActivity extends Activity implements OnInitListener {
 			public void done(List<ParseObject> lineList, ParseException e) {
 				lines = new ArrayList<String>();
 				lineIds = new ArrayList<String>();
+				characters = new ArrayList<String>();
+				lineSpeech = new ArrayList<String>();
 
 				if (e == null) {
 					for (int i = 0; i < lineList.size(); i++) {
 						lines.add(lineList.get(i).getString("character").toUpperCase() + "\n" + lineList.get(i).getString("line"));
 						lineIds.add(lineList.get(i).objectId());
+						characters.add(lineList.get(i).getString("character"));
+						lineSpeech.add(lineList.get(i).getString("line"));
 					}
 					setListView();
 				} else {
