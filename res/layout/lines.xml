@@ -6,7 +6,7 @@
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:background="#FFFFFF">
+	android:background="@drawable/background">
     <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout1">
         <AutoCompleteTextView android:id="@+id/character" android:text="Char" android:layout_width="80dip" android:layout_height="fill_parent"></AutoCompleteTextView>
         <EditText android:layout_height="wrap_content" android:id="@+id/line" android:text="Line" android:layout_width="170dip"></EditText>
@@ -17,8 +17,9 @@
 			android:layout_weight="1"
 			android:layout_width="fill_parent"
 			android:divider="#666666"
-			android:background="#FFFFFF"
 			android:isScrollContainer="true"
+			android:background="@android:color/transparent"
+			android:cacheColorHint="#00000000"
 			></ListView>
 		
 		<!-- <LinearLayout android:layout_width="fill_parent"

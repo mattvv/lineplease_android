@@ -2,12 +2,14 @@
 <LinearLayout android:id="@+id/linearLayout1"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:background="#FFFFFF"
-	xmlns:android="http://schemas.android.com/apk/res/android">
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:background="@drawable/background">
 	<ListView android:id="@+id/listview" android:layout_height="wrap_content"
 		android:layout_weight="1"
 		android:layout_width="fill_parent"
 		android:divider="#666666"
-		android:background="#FFFFFF"
+		android:isScrollContainer="true"
+		android:background="@android:color/transparent"
+		android:cacheColorHint="#00000000"
 	></ListView>
 </LinearLayout>
