@@ -93,13 +93,15 @@ public class LinesActivity extends Activity implements OnInitListener {
                                 	if (message.equals("end")) {
                                 		getMessageQuery();
                                 	} else {
-                                		String[] messages = message.split("_");
-                                		boolean speak = true;
-                                		Log.d("Boolean", messages[1]);
+                                		String[] messages = message.split(" ");
+                                		boolean speak = false;
+                                		if (messages.length > 1)
+                                		{
+                                			Log.d("Boolean", messages[1]);
                                 		
-                                		if (messages[1].equals("no"))
-                                			speak = false;
-                                		
+                                			if (messages[1].equals("yes"))
+                                				speak = true;
+                                		}
 	                            		highlightLine(Integer.parseInt(messages[0]), speak);
                                 	}
                                 }
@@ -113,19 +115,18 @@ public class LinesActivity extends Activity implements OnInitListener {
     }
 	
 	private void highlightLine(int line, boolean speak) {
-		TextView newLine = (TextView) listView.getChildAt(line);
+		final TextView newLine = (TextView) listView.getChildAt(line);
 		
 		if (newLine == null)
 			return;
 		
-		
-		listView.setSelection(line);
+		listView.smoothScrollToPosition(line);
+
 		Log.d("HighlightLine", "Highlighting line " + line + " " + newLine.getText().toString());
-		
-		if (speak)
-			newLine.setTextColor(Color.RED);
-		else
-			newLine.setTextColor(Color.BLUE);
+        if (speak)
+        	newLine.setTextColor(Color.RED);
+        else
+        	newLine.setTextColor(Color.BLUE);
 	}
 	
     private void EnumerateAvailableLanguages()
@@ -165,7 +166,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 		@Override
 		public void onClick(View v) {
 			EditText charactertxt = (EditText) findViewById(R.id.character);
-			selectedCharacter = charactertxt.getText().toString();
+			selectedCharacter = charactertxt.getText().toString().toLowerCase();
 			switch (v.getId()) {
 			case R.id.send:
 				saveLine();
@@ -183,43 +184,40 @@ public class LinesActivity extends Activity implements OnInitListener {
 	public void playLines() {;
 		for (int i = 0; i < characters.size(); i++) {
 			HashMap<String, String> whosSpeaking = new HashMap<String, String>();
-			String remoteCharacter = characters.get(i);
+			String remoteCharacter = characters.get(i).toString().toLowerCase();
 
+			//Highlight First Line before message is played
 			if (i == 0) {
-				//determine what color to highlight the first line
 				if (selectedCharacter.equals(remoteCharacter))
 					highlightLine(0, true);
 				else
 					highlightLine(0, false);
 			}
+			
 			String utteranceKey = Integer.toString(i);
 						
 			if (i+1 < characters.size()) {
-				String nextRemoteCharacter = characters.get(i+1);
+				//Only highlight the next line played (as this gets trigger
+				String nextRemoteCharacter = characters.get(i+1).toString().toLowerCase();
 				utteranceKey = Integer.toString(i+1);
-				Log.d("UKey", utteranceKey);
 				if (selectedCharacter.equals(nextRemoteCharacter))
-					utteranceKey += "_yes";
+					utteranceKey += " yes";
 				else
-					utteranceKey += "_no";
+					utteranceKey += " no";
 			} else {
-				utteranceKey += "_no";
+				utteranceKey = "end";
 			}
+			
 			whosSpeaking.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceKey);
-							
+			Log.d("UTTERANCE ID", "UTTERANCE " + utteranceKey);		
 			if (selectedCharacter.equals(remoteCharacter)) {
 				//User speaks this line so we play silence
 				long silence = calculateSilence(lineSpeech.get(i));
-				
 				lineSpeaker.playSilence(silence, TextToSpeech.QUEUE_ADD, whosSpeaking);
 			} else {
 				//We speak this line
 				lineSpeaker.speak(lineSpeech.get(i), TextToSpeech.QUEUE_ADD, whosSpeaking);
 			}
-										
-			HashMap<String, String> endSpeaking = new HashMap<String, String>();
-			endSpeaking.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"end");
-			lineSpeaker.playSilence(1, TextToSpeech.QUEUE_ADD, endSpeaking);	
 		}	
 	}
 	
@@ -256,6 +254,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 						characters.add(lineList.get(i).getString("character"));
 						lineSpeech.add(lineList.get(i).getString("line"));
 					}
+					
 					setListView();
 				} else {
 					Log.d("line", "Error: " + e.getMessage());
