@@ -128,7 +128,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 		
 		if (wantedChild < 0 || wantedChild >= listView.getChildCount()) {
 			  return;
-			}
+		}
 		
 		if (newLine == null)
 			return;
@@ -142,7 +142,12 @@ public class LinesActivity extends Activity implements OnInitListener {
 		        	newLine.setTextColor(Color.RED);
 		        else
 		        	newLine.setTextColor(Color.BLUE);
+		     
 		        listView.setSelection(wantedChild);
+		        for (int i=wantedChild+1; i < listView.getChildCount(); i++) {
+		        	TextView extraLine = (TextView) listView.getChildAt(i);
+		        	extraLine.setTextColor(Color.BLACK);
+		        }
     		}
 		});
 	}
