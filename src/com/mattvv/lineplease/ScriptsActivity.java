@@ -53,6 +53,7 @@ public class ScriptsActivity extends Activity {
 		search = (EditText) findViewById(R.id.search);
 		add = (Button) findViewById(R.id.add);
 		search.setOnKeyListener(keyListener);
+		add.setOnClickListener(ButtonClickListeners);
 		refreshScripts();
 	}
 
@@ -96,6 +97,25 @@ public class ScriptsActivity extends Activity {
 		listView.setOnItemLongClickListener(longClickListener);
 		loading.setVisibility(ProgressBar.INVISIBLE);
 	}
+	
+	public void addScript(String name) {
+		ParseUser currentUser = ParseUser.getCurrentUser();
+
+		Log.d("Adding Script", ":" + name + ":");
+		
+		if (name.equals("") || name.equals(" ")) 
+			return; // dont allow empty strings
+			
+		ParseObject script = new ParseObject("Script");
+		script.put("username", currentUser.getUsername());
+		script.put("name", name);
+		try {
+			script.save();
+			refreshScripts();
+		} catch (ParseException e1) {
+				e1.printStackTrace();
+		}
+	}	
 	
 	public void deleteScript(int position) {
 		Log.d("Delete", "Deleting Script");
@@ -160,6 +180,45 @@ public class ScriptsActivity extends Activity {
 		
 		
 	}
+	
+	public void addScriptAlert() {
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		Log.d("building Alert", "building alert");
+		alert.setTitle("Add Script");
+		alert.setMessage("");
+
+		// Set an EditText view to get user input 
+		final EditText input = new EditText(this);
+		input.setHint("Enter Script Name");
+		alert.setView(input);
+
+		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				Log.d("onAlertClick", "adding cript");
+				addScript(input.getText().toString());
+			}
+		});
+
+		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				// Canceled.
+			}
+		});
+		alert.show();
+	}
+	View.OnClickListener ButtonClickListeners = new View.OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.add:
+				Log.d("onClick", "running script alert");
+				addScriptAlert();
+				break;
+			}
+
+		}
+	};
 
 	AdapterView.OnItemClickListener itemclicklistener = new AdapterView.OnItemClickListener() {
 
