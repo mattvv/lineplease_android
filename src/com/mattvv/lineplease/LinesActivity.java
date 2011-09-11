@@ -342,6 +342,35 @@ public class LinesActivity extends Activity implements OnInitListener {
 		alert.show();
 	}
 	
+	public void playLinesAlert() {
+		cleanCharacters();
+		final CharSequence[] items = new CharSequence[characters.size()];
+		
+		for (int i=0; i < characters.size(); i++)
+			items[i] = (CharSequence) characters.get(i);
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Choose your character");
+		builder.setItems(items, new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog, int item) {
+		        Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+		    }
+		});
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
+	
+	public void cleanCharacters() {
+		ArrayList<String> oldCharacters = characters;
+		characters = new ArrayList<String>();
+		for (int i=0; i < oldCharacters.size(); i++) {
+			String character = oldCharacters.get(i).toString().toUpperCase();
+			character.replaceAll(" ", "");
+			if (!characters.contains(character))
+				characters.add(character);
+		}
+	}
+	
 	View.OnClickListener ButtonClickListeners = new View.OnClickListener() {
 
 		@Override
@@ -352,7 +381,8 @@ public class LinesActivity extends Activity implements OnInitListener {
 				break;
 
 			case R.id.play:
-				playLines();
+				playLinesAlert();
+				//playLines();
 				break;
 			}
 
