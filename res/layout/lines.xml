@@ -3,10 +3,8 @@
 	android:id="@+id/create_account"
 	android:focusable="true"
 	android:focusableInTouchMode="true"
-	android:orientation="vertical"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:background="@drawable/background">
+	android:paddingTop="0dip"
+	style="@style/View">
     <LinearLayout 
     	android:layout_width="fill_parent" 
     	android:layout_height="wrap_content" 

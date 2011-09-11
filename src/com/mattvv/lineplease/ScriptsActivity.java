@@ -11,10 +11,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.parse.DeleteCallback;
@@ -33,6 +37,8 @@ public class ScriptsActivity extends Activity {
 	private ArrayList<String> scriptNames;
 	private ArrayList<String> scriptIds;
 	ListView listView;
+	ProgressBar loading;
+	EditText search;
 	Context ctx;
 
 	@Override
@@ -41,18 +47,26 @@ public class ScriptsActivity extends Activity {
 		setContentView(R.layout.scripts);
 		ctx = this;
 		listView = (ListView) findViewById(R.id.listview);
-
+		loading = (ProgressBar) findViewById(R.id.loading);
+		search = (EditText) findViewById(R.id.search);
+		search.setOnKeyListener(keyListener);
 		refreshScripts();
 	}
 
 	public void refreshScripts() {
+		loading.setVisibility(ProgressBar.VISIBLE);
 		scriptNames = new ArrayList<String>();
 		scriptIds = new ArrayList<String>();
+		
+		if (listView.getChildCount() > 0)
+			((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
 
 		String currentUserName = ParseUser.getCurrentUser().getUsername();
-		
+		String searchText = search.getText().toString();
 		ParseQuery query = new ParseQuery("Script");
 		query.whereEqualTo("username", currentUserName);
+		if (!searchText.equals(""))
+			query.whereEqualTo(key, value)("name", searchText);
 		query.orderByDescending("updatedAt");
 		query.findInBackground(new FindCallback() {
 			@Override
@@ -74,11 +88,10 @@ public class ScriptsActivity extends Activity {
 	}
 
 	public void setListView() {
-		Log.d("script", "Error: attempting to set adapter, scriptNames size:");
-		Log.d("script", "scriptNames: " + scriptNames.size());
 		listView.setAdapter(new ArrayAdapter<String>(this, R.layout.listviewrow, scriptNames));
 		listView.setOnItemClickListener(itemclicklistener);
 		listView.setOnItemLongClickListener(longClickListener);
+		loading.setVisibility(ProgressBar.INVISIBLE);
 	}
 	
 	public void deleteScript(int position) {
@@ -167,4 +180,13 @@ public class ScriptsActivity extends Activity {
 		}
 
 	};
+	
+	AdapterView.OnKeyListener keyListener = new AdapterView.OnKeyListener() {
+		@Override
+		public boolean onKey(View v, int keyCode, KeyEvent event) {
+		    refreshScripts();
+		    return false;
+		}
+	};
+	
 }
