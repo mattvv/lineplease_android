@@ -1,0 +1,10 @@
+<resources>
+	<style name="TopBarInput" parent="ButtonText">
+		<item name="android:layout_height">40dip</item>
+		<item name="android:textColorHint">#9b5aff</item>
+		<item name="android:gravity">left</item>
+		<item name="android:paddingLeft">10dip</item>
+		<item name="android:paddingTop">10dip</item> 
+        <item name="android:background">@drawable/input_purple</item>
+	</style>
+</resources>

@@ -7,11 +7,39 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:background="@drawable/background">
-    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout1">
-        <AutoCompleteTextView android:id="@+id/character" android:text="Char" android:layout_width="80dip" android:layout_height="fill_parent"></AutoCompleteTextView>
-        <EditText android:layout_height="wrap_content" android:id="@+id/line" android:text="Line" android:layout_width="170dip"></EditText>
-        <Button android:layout_height="wrap_content" android:layout_weight="1" android:layout_width="wrap_content" android:id="@+id/send" android:text="+"></Button>
-        <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/play" android:text="|>"></Button>
+    <LinearLayout 
+    	android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content" 
+    	android:id="@+id/linearLayout1"
+    	android:background="@drawable/topbg">
+        <AutoCompleteTextView 
+        	android:id="@+id/character" 
+        	android:hint="Char" 
+        	android:layout_width="80dip" 
+			style="@style/TopBarInput">
+        </AutoCompleteTextView>
+        <EditText 
+        	android:id="@+id/line" 
+        	android:hint="Enter Line" 
+        	android:layout_width="170dip" 
+			style="@style/TopBarInput">
+        	</EditText>
+        <Button 
+        	android:layout_width="20dip" 
+        	android:layout_height="40dip"
+        	android:id="@+id/send" 
+        	android:text="+"
+        	android:background="@drawable/button_purple"
+			style="@style/ButtonText">
+		</Button>
+        <Button 
+        	android:layout_width="20dip" 
+        	android:layout_height="40dip"
+        	android:id="@+id/play"
+        	android:text=">"
+        	android:background="@drawable/button_purple"
+			style="@style/ButtonText"> 
+        	</Button>
     </LinearLayout>
 		<ListView android:id="@+id/listviewlines" android:layout_height="wrap_content"
 			android:layout_weight="1"
