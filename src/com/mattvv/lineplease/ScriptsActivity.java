@@ -226,7 +226,10 @@ public class ScriptsActivity extends Activity {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-
+			InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+			EditText search = (EditText) findViewById(R.id.search);
+			imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
+			
 			LinesActivity.scriptId = scriptIds.get(position);
 			Intent intent = new Intent(view.getContext(), LinesActivity.class);
 			startActivityForResult(intent, 0);
