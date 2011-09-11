@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,13 +54,15 @@ public class LinesActivity extends Activity implements OnInitListener {
 	Timer timer;
 
 	Handler khandler;
+	ProgressBar loading;
+	Button add;
+	Button play;
 	private TextToSpeech lineSpeaker = null;
 	private ArrayList<Locale> availableLocales = null;
 	private ArrayList<String> lines = null;
 	private ArrayList<String> lineIds = null;
 	private ArrayList<String> characters = null;
 	private ArrayList<String> lineSpeech = null;
-	private String selectedCharacter = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -67,17 +70,19 @@ public class LinesActivity extends Activity implements OnInitListener {
 		ctx = this;
 		khandler = new Handler();
 		setContentView(R.layout.lines);
+		loading = (ProgressBar) findViewById(R.id.loading);
 		
 		availableLocales = new ArrayList<Locale>();
 		lineSpeaker = new TextToSpeech(this,this);
 
-		Button add = (Button) findViewById(R.id.add);
-		Button play = (Button) findViewById(R.id.play);
+		add = (Button) findViewById(R.id.add);
+		play = (Button) findViewById(R.id.play);
 		add.setOnClickListener(ButtonClickListeners);
 		play.setOnClickListener(ButtonClickListeners);
 		
 		listView = (ListView) findViewById(R.id.listviewlines);
 		refreshLines();
+		setLoading(true);
 	}
 	
 	@Override
@@ -127,13 +132,13 @@ public class LinesActivity extends Activity implements OnInitListener {
 		if (newLine == null)
 			return;
 		
-		listView.smoothScrollToPosition(line);
-
 		Log.d("HighlightLine", "Highlighting line " + line + " " + newLine.getText().toString());
         if (speak)
         	newLine.setTextColor(Color.RED);
         else
         	newLine.setTextColor(Color.BLUE);
+        
+        listView.setSelection(line);
 	}
 	
     private void EnumerateAvailableLanguages()
@@ -215,10 +220,11 @@ public class LinesActivity extends Activity implements OnInitListener {
 		}		
 	}
 
-	public void playLines(String selectedCharacter) {;
+	public void playLines(String selectedCharacter) {
+		setLoading(true);
 		for (int i = 0; i < characters.size(); i++) {
 			HashMap<String, String> whosSpeaking = new HashMap<String, String>();
-			String remoteCharacter = characters.get(i).toString().toLowerCase();
+			String remoteCharacter = characters.get(i).toString().toLowerCase().replaceAll("\\W","");
 
 			//Highlight First Line before message is played
 			if (i == 0) {
@@ -232,7 +238,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 						
 			if (i+1 < characters.size()) {
 				//Only highlight the next line played (as this gets trigger
-				String nextRemoteCharacter = characters.get(i+1).toString().toLowerCase();
+				String nextRemoteCharacter = characters.get(i+1).toString().toLowerCase().replaceAll("\\W","");
 				utteranceKey = Integer.toString(i+1);
 				if (selectedCharacter.equals(nextRemoteCharacter))
 					utteranceKey += " yes";
@@ -292,7 +298,6 @@ public class LinesActivity extends Activity implements OnInitListener {
 						characters.add(lineList.get(i).getString("character"));
 						lineSpeech.add(lineList.get(i).getString("line"));
 					}
-					
 					setListView();
 				} else {
 					Log.d("line", "Error: " + e.getMessage());
@@ -309,6 +314,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 		listView.setOnItemLongClickListener(longClickListener);
 		listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 		listView.setStackFromBottom(true);
+		setLoading(false);
 	}
 	
     	
@@ -343,11 +349,12 @@ public class LinesActivity extends Activity implements OnInitListener {
 	}
 	
 	public void playLinesAlert() {
-		cleanCharacters();
-		final CharSequence[] items = new CharSequence[characters.size()];
+		listView.setSelection(0);
+		ArrayList<String> newCharacters = cleanCharacters();
+		final CharSequence[] items = new CharSequence[newCharacters.size()];
 		
-		for (int i=0; i < characters.size(); i++)
-			items[i] = (CharSequence) characters.get(i);
+		for (int i=0; i < newCharacters.size(); i++)
+			items[i] = (CharSequence) newCharacters.get(i);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Choose your character");
@@ -361,14 +368,27 @@ public class LinesActivity extends Activity implements OnInitListener {
 		alert.show();
 	}
 	
-	public void cleanCharacters() {
-		ArrayList<String> oldCharacters = characters;
-		characters = new ArrayList<String>();
-		for (int i=0; i < oldCharacters.size(); i++) {
-			String character = oldCharacters.get(i).toString().toUpperCase();
-			character.replaceAll(" ", "");
-			if (!characters.contains(character))
-				characters.add(character);
+	public ArrayList<String> cleanCharacters() {
+		ArrayList<String> newCharacters = new ArrayList<String>();
+		for (int i=0; i < characters.size(); i++) {
+			String character = characters.get(i).toString().toUpperCase();
+			character = character.replaceAll("\\W","");
+			Log.d("Character", "Character $" + character + "$");
+			if (!newCharacters.contains(character))
+				newCharacters.add(character);
+		}
+		return newCharacters;
+	}
+	
+	public void setLoading(boolean load) {
+		if (load) {
+			loading.setVisibility(ProgressBar.VISIBLE);
+			add.setEnabled(false);
+			play.setEnabled(false);
+		} else {
+			loading.setVisibility(ProgressBar.INVISIBLE);
+			add.setEnabled(true);
+			play.setEnabled(true);	
 		}
 	}
 	

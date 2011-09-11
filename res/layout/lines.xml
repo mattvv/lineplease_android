@@ -11,6 +11,12 @@
     	android:gravity="right" 
     	android:id="@+id/linearLayout1"
     	android:background="@drawable/topbg">
+    	<ProgressBar 
+			android:id="@+id/loading" 
+			android:layout_height="20dip" 
+			android:layout_width="20dip"
+			>
+		</ProgressBar>
         <Button 
         	android:layout_width="wrap_content" 
         	android:layout_height="40dip"
