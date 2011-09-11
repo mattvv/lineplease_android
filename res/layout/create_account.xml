@@ -31,5 +31,17 @@
 		android:id="@+id/register"
 		android:background="@drawable/button_purple"
 		style="@style/ButtonText"></Button>
+	<ImageView
+		android:layout_width="0dip"
+		android:layout_height="100dip"
+		android:src="@drawable/empty">
+	</ImageView>
+	<TextView
+		android:text="It's free to register!\nCreate your account now and start practicing your lines"
+		android:layout_width="200dip"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		>
+	</TextView>
 </LinearLayout>
     

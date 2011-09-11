@@ -2,5 +2,6 @@
     <style name="CustomTheme" parent="android:Theme.NoTitleBar">
     	<item name="android:textColor">#333333</item>
  		<item name="android:typeface">normal</item>
+ 		<item name="android:screenOrientation">portrait</item>
     </style>
 </resources>
