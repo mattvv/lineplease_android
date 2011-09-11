@@ -10,6 +10,7 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -31,6 +32,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -163,6 +165,54 @@ public class LinesActivity extends Activity implements OnInitListener {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+	}
+	
+	public void deleteLineAlert(int position) {
+		Log.d("Delete", "Deleting Line");
+		final String lineId = lineIds.get(position);
+		String lineName = lines.get(position);
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Are you sure you want to delete the line \n" + lineName)
+		       .setCancelable(false)
+		       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		                deleteLine(lineId);
+		           }
+		       })
+		       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		                //don't remove it :P
+		           }
+		       });
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
+	
+	public void deleteLine(String lineId) {
+		//delete the Line
+		
+		final ProgressDialog dialog = ProgressDialog.show(this, "", 
+                "Deleting. Please wait...", true);
+		dialog.show();
+		ParseQuery query = new ParseQuery("Line");
+		try {
+		    ParseObject script = query.get(lineId);
+		    script.deleteInBackground(new DeleteCallback() {
+		        public void done(ParseException e) {
+		        	runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                        	refreshLines();
+                        	dialog.hide();
+                        }
+		        	});
+		        }
+		    });
+		} catch (ParseException e) {
+		    // e.getMessage() will have information on the error.
+		}		
 	}
 
 	public void playLines() {;
@@ -328,7 +378,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 		@Override
 		public boolean onItemLongClick(AdapterView<?> parent, final View view, int position, long id) {
 			Toast.makeText(ctx, "Pressed Delete", Toast.LENGTH_LONG);
-			//deleteScript(position);
+			deleteLineAlert(position);
 			return true;
 		}
 
