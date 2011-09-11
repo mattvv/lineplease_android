@@ -3,7 +3,13 @@
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:paddingTop="20dip">
+	android:paddingTop="10dip">
+	<ImageView
+		android:src="@drawable/register"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:paddingBottom="10dip">
+	</ImageView>
 	<EditText 
 		android:id="@+id/username"
 		android:hint="Username"
@@ -23,7 +29,10 @@
 		android:background="@drawable/tablebottom" 
 		style="@style/tableInput">
 	</EditText>
-	<Button android:text="Register" android:id="@+id/register"
-		android:layout_width="120dp" android:layout_height="wrap_content"></Button>
+	<Button 
+		android:text="Register"
+		android:id="@+id/register"
+		android:background="@drawable/button_purple"
+		style="@style/ButtonText"></Button>
 </LinearLayout>
     

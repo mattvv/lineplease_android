@@ -13,17 +13,21 @@ public final class R {
     public static final class drawable {
         public static final int background=0x7f020000;
         public static final int bg=0x7f020001;
-        public static final int coursebg=0x7f020002;
-        public static final int empty=0x7f020003;
-        public static final int icon=0x7f020004;
-        public static final int logo=0x7f020005;
-        public static final int paper=0x7f020006;
-        public static final int papertile=0x7f020007;
-        public static final int tablebottom=0x7f020008;
-        public static final int tablemid=0x7f020009;
-        public static final int tabletop=0x7f02000a;
-        public static final int topbar=0x7f02000b;
-        public static final int topbg=0x7f02000c;
+        public static final int button_black=0x7f020002;
+        public static final int button_blue=0x7f020003;
+        public static final int button_purple=0x7f020004;
+        public static final int coursebg=0x7f020005;
+        public static final int empty=0x7f020006;
+        public static final int icon=0x7f020007;
+        public static final int logo=0x7f020008;
+        public static final int paper=0x7f020009;
+        public static final int papertile=0x7f02000a;
+        public static final int register=0x7f02000b;
+        public static final int tablebottom=0x7f02000c;
+        public static final int tablemid=0x7f02000d;
+        public static final int tabletop=0x7f02000e;
+        public static final int topbar=0x7f02000f;
+        public static final int topbg=0x7f020010;
     }
     public static final class id {
         public static final int add=0x7f060003;
@@ -65,7 +69,8 @@ public final class R {
         public static final int or=0x7f050002;
     }
     public static final class style {
-        public static final int CustomTheme=0x7f040000;
-        public static final int tableInput=0x7f040001;
+        public static final int ButtonText=0x7f040000;
+        public static final int CustomTheme=0x7f040001;
+        public static final int tableInput=0x7f040002;
     }
 }
