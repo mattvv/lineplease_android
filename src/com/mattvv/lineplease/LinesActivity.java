@@ -215,7 +215,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 		}		
 	}
 
-	public void playLines() {;
+	public void playLines(String selectedCharacter) {;
 		for (int i = 0; i < characters.size(); i++) {
 			HashMap<String, String> whosSpeaking = new HashMap<String, String>();
 			String remoteCharacter = characters.get(i).toString().toLowerCase();
@@ -354,6 +354,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 		builder.setItems(items, new DialogInterface.OnClickListener() {
 		    public void onClick(DialogInterface dialog, int item) {
 		        Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+		        playLines(items[item].toString().toLowerCase());
 		    }
 		});
 		AlertDialog alert = builder.create();
