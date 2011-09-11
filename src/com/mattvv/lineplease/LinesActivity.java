@@ -94,51 +94,57 @@ public class LinesActivity extends Activity implements OnInitListener {
             {
                     EnumerateAvailableLanguages();
                     lineSpeaker.setOnUtteranceCompletedListener(new OnUtteranceCompletedListener() {
-
                         @Override
                         public void onUtteranceCompleted(String utteranceId) {
-                        	final String message = utteranceId;
-                            runOnUiThread(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                	if (message.equals("end")) {
-                                		refreshLines();
-                                	} else {
-                                		String[] messages = message.split(" ");
-                                		boolean speak = false;
-                                		if (messages.length > 1)
-                                		{
-                                			Log.d("Boolean", messages[1]);
-                                		
-                                			if (messages[1].equals("yes"))
-                                				speak = true;
-                                		}
-	                            		highlightLine(Integer.parseInt(messages[0]), speak);
+                        	String message = utteranceId;
+                            if (message.equals("end")) {
+                            	runOnUiThread(new Runnable() {
+                            		
+                            		@Override
+                            		public void run() {
+                            			refreshLines();
+                            		}
+                            	});
+                            } else {
+                            	String[] messages = message.split(" ");
+                                boolean speak = false;
+                                if (messages.length > 1) {
+                                	Log.d("Boolean", messages[1]);
+                              
+                                	if (messages[1].equals("yes"))
+                                		speak = true;
                                 	}
-                                }
-                            });
+	                            	highlightLine(Integer.parseInt(messages[0]), speak);
+                                }  
                         }
                     });
-
-                    
-                    ((Button)findViewById(R.id.play)).setEnabled(true);
             }
     }
 	
-	private void highlightLine(int line, boolean speak) {
-		final TextView newLine = (TextView) listView.getChildAt(line);
+	private void highlightLine(final int line, final boolean speak) {
+		
+		final int wantedChild = line - listView.getFirstVisiblePosition();
+		final TextView newLine = (TextView) listView.getChildAt(wantedChild);
+		
+		if (wantedChild < 0 || wantedChild >= listView.getChildCount()) {
+			  return;
+			}
 		
 		if (newLine == null)
 			return;
 		
 		Log.d("HighlightLine", "Highlighting line " + line + " " + newLine.getText().toString());
-        if (speak)
-        	newLine.setTextColor(Color.RED);
-        else
-        	newLine.setTextColor(Color.BLUE);
-        
-        listView.setSelection(line);
+		runOnUiThread(new Runnable() {
+    		
+    		@Override
+    		public void run() {
+		        if (speak)
+		        	newLine.setTextColor(Color.RED);
+		        else
+		        	newLine.setTextColor(Color.BLUE);
+		        listView.setSelection(wantedChild);
+    		}
+		});
 	}
 	
     private void EnumerateAvailableLanguages()
