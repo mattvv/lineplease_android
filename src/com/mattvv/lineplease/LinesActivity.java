@@ -20,6 +20,7 @@ import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -74,7 +75,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 		play.setOnClickListener(ButtonClickListeners);
 		
 		listView = (ListView) findViewById(R.id.listviewlines);
-		getMessageQuery();
+		refreshLines();
 	}
 	
 	@Override
@@ -95,7 +96,7 @@ public class LinesActivity extends Activity implements OnInitListener {
                                 @Override
                                 public void run() {
                                 	if (message.equals("end")) {
-                                		getMessageQuery();
+                                		refreshLines();
                                 	} else {
                                 		String[] messages = message.split(" ");
                                 		boolean speak = false;
@@ -157,6 +158,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 		
 		try {
 			line.save();
+			refreshLines();
 		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -215,8 +217,12 @@ public class LinesActivity extends Activity implements OnInitListener {
 	    	return 700; //return 0.7seconds for one word
 	    return count * 520; //return .52 seconds for each word
 	}
+	
+	public void jumpToLastLine() {
+		listView.smoothScrollToPosition(listView.getChildCount() - 1);
+	}
 
-	public void getMessageQuery() {
+	public void refreshLines() {
 
 		ParseQuery query = new ParseQuery("Line");
 		query.whereEqualTo("scriptId", scriptId);
@@ -251,6 +257,8 @@ public class LinesActivity extends Activity implements OnInitListener {
 		listView.setAdapter(new ArrayAdapter<String>(this, R.layout.listviewrow, lines));
 		listView.setOnItemClickListener(itemclicklistener);
 		listView.setOnItemLongClickListener(longClickListener);
+		listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+		listView.setStackFromBottom(true);
 	}
 	
     	
@@ -268,9 +276,10 @@ public class LinesActivity extends Activity implements OnInitListener {
 		alertLayout.addView(line);
 		alert.setView(alertLayout);
 
-		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		alert.setPositiveButton("Add Line", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
-				Log.d("onAlertClick", "adding cript");
+				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(line.getWindowToken(), 0);
 				addLine(character.getText().toString().toLowerCase(), line.getText().toString());
 			}
 		});
@@ -290,7 +299,6 @@ public class LinesActivity extends Activity implements OnInitListener {
 			switch (v.getId()) {
 			case R.id.add:
 				addLineAlert();
-				getMessageQuery();
 				break;
 
 			case R.id.play:

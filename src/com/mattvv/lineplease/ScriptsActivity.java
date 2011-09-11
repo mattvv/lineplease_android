@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -185,16 +186,17 @@ public class ScriptsActivity extends Activity {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		Log.d("building Alert", "building alert");
 		alert.setTitle("Add Script");
-		alert.setMessage("");
 
 		// Set an EditText view to get user input 
 		final EditText input = new EditText(this);
-		input.setHint("Enter Script Name");
+		input.setHint("Script Name");
 		alert.setView(input);
 
-		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		alert.setPositiveButton("Add Script", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				Log.d("onAlertClick", "adding cript");
+				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
 				addScript(input.getText().toString());
 			}
 		});
