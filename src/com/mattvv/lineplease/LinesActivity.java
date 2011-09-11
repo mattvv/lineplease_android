@@ -9,7 +9,9 @@ import java.util.Timer;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -20,8 +22,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,9 +68,9 @@ public class LinesActivity extends Activity implements OnInitListener {
 		availableLocales = new ArrayList<Locale>();
 		lineSpeaker = new TextToSpeech(this,this);
 
-		Button send = (Button) findViewById(R.id.send);
-		send.setOnClickListener(ButtonClickListeners);
+		Button add = (Button) findViewById(R.id.add);
 		Button play = (Button) findViewById(R.id.play);
+		add.setOnClickListener(ButtonClickListeners);
 		play.setOnClickListener(ButtonClickListeners);
 		
 		listView = (ListView) findViewById(R.id.listviewlines);
@@ -144,14 +148,12 @@ public class LinesActivity extends Activity implements OnInitListener {
             }
     }	
 
-	public void saveLine() {
-		EditText linetxt = (EditText) findViewById(R.id.line);
-		
+	public void addLine(String characterInput, String lineInput) {
 		line = new ParseObject("Line");
 
-		line.put("character", selectedCharacter);
+		line.put("character", characterInput);
 		line.put("scriptId", scriptId);
-		line.put("line", linetxt.getText().toString());
+		line.put("line", lineInput);
 		
 		try {
 			line.save();
@@ -161,26 +163,6 @@ public class LinesActivity extends Activity implements OnInitListener {
 		}
 	}
 
-	View.OnClickListener ButtonClickListeners = new View.OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			EditText charactertxt = (EditText) findViewById(R.id.character);
-			selectedCharacter = charactertxt.getText().toString().toLowerCase();
-			switch (v.getId()) {
-			case R.id.send:
-				saveLine();
-				getMessageQuery();
-				break;
-
-			case R.id.play:
-				playLines();
-				break;
-			}
-
-		}
-	};
-	
 	public void playLines() {;
 		for (int i = 0; i < characters.size(); i++) {
 			HashMap<String, String> whosSpeaking = new HashMap<String, String>();
@@ -270,6 +252,54 @@ public class LinesActivity extends Activity implements OnInitListener {
 		listView.setOnItemClickListener(itemclicklistener);
 		listView.setOnItemLongClickListener(longClickListener);
 	}
+	
+    	
+	public void addLineAlert() {
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setTitle("Add Line");
+
+		// Set an EditText view to get user input
+		final LinearLayout alertLayout = new LinearLayout(this);
+		final AutoCompleteTextView character = new AutoCompleteTextView(this);
+		final EditText line = new EditText(this);
+		character.setHint("Character");
+		line.setHint("Line");
+		alertLayout.addView(character);
+		alertLayout.addView(line);
+		alert.setView(alertLayout);
+
+		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				Log.d("onAlertClick", "adding cript");
+				addLine(character.getText().toString().toLowerCase(), line.getText().toString());
+			}
+		});
+
+		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				// Canceled.
+			}
+		});
+		alert.show();
+	}
+	
+	View.OnClickListener ButtonClickListeners = new View.OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.add:
+				addLineAlert();
+				getMessageQuery();
+				break;
+
+			case R.id.play:
+				playLines();
+				break;
+			}
+
+		}
+	};
 	
 	AdapterView.OnItemClickListener itemclicklistener = new AdapterView.OnItemClickListener() {
 
