@@ -57,6 +57,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 	ProgressBar loading;
 	Button add;
 	Button play;
+	Button stop;
 	private TextToSpeech lineSpeaker = null;
 	private ArrayList<Locale> availableLocales = null;
 	private ArrayList<String> lines = null;
@@ -77,8 +78,10 @@ public class LinesActivity extends Activity implements OnInitListener {
 
 		add = (Button) findViewById(R.id.add);
 		play = (Button) findViewById(R.id.play);
+		stop = (Button) findViewById(R.id.stop);
 		add.setOnClickListener(ButtonClickListeners);
 		play.setOnClickListener(ButtonClickListeners);
+		stop.setOnClickListener(ButtonClickListeners);
 		
 		listView = (ListView) findViewById(R.id.listviewlines);
 		refreshLines();
@@ -233,6 +236,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 
 	public void playLines(String selectedCharacter) {
 		setLoading(true);
+		stop.setVisibility(Button.VISIBLE);
 		for (int i = 0; i < characters.size(); i++) {
 			HashMap<String, String> whosSpeaking = new HashMap<String, String>();
 			String remoteCharacter = characters.get(i).toString().toLowerCase().replaceAll("\\W","");
@@ -398,9 +402,16 @@ public class LinesActivity extends Activity implements OnInitListener {
 			play.setEnabled(false);
 		} else {
 			loading.setVisibility(ProgressBar.INVISIBLE);
+			stop.setVisibility(Button.INVISIBLE);
 			add.setEnabled(true);
 			play.setEnabled(true);	
 		}
+	}
+	
+	public void stopPlayingLines() {
+		lineSpeaker.stop();
+		setLoading(false);
+		refreshLines();
 	}
 	
 	View.OnClickListener ButtonClickListeners = new View.OnClickListener() {
@@ -415,6 +426,10 @@ public class LinesActivity extends Activity implements OnInitListener {
 			case R.id.play:
 				playLinesAlert();
 				//playLines();
+				break;
+			
+			case R.id.stop:
+				stopPlayingLines();
 				break;
 			}
 
