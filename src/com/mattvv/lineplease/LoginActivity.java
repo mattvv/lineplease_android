@@ -61,7 +61,7 @@ public class LoginActivity extends Activity {
 
 	public void loginSuccessful() {
 		Toast.makeText(LoginActivity.this, "Successful Login", Toast.LENGTH_LONG).show();
-		Intent intent = new Intent(this, AddScriptActivity.class);
+		Intent intent = new Intent(this, ScriptsActivity.class);
 		startActivityForResult(intent, 0);
 	}
 
