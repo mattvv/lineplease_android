@@ -12,8 +12,8 @@
 		android:gravity="center">
 		<EditText 
         	android:id="@+id/search"
-        	android:hint="Search"
-        	android:layout_width="161dip" 
+        	android:hint="Search Scripts"
+        	android:layout_width="240dip"
          	style="@style/TopBarInput">
         </EditText>
         <ProgressBar 
@@ -25,7 +25,7 @@
 		<Button 
 			android:layout_width="wrap_content"
 	        android:id="@+id/add"
-	        android:text="@string/add_button"
+	        android:text="Add Script"
 	        android:background="@drawable/button_purple"
 			style="@style/ButtonText">
 		</Button>

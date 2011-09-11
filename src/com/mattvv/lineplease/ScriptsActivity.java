@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -39,6 +40,7 @@ public class ScriptsActivity extends Activity {
 	ListView listView;
 	ProgressBar loading;
 	EditText search;
+	Button add;
 	Context ctx;
 
 	@Override
@@ -49,6 +51,7 @@ public class ScriptsActivity extends Activity {
 		listView = (ListView) findViewById(R.id.listview);
 		loading = (ProgressBar) findViewById(R.id.loading);
 		search = (EditText) findViewById(R.id.search);
+		add = (Button) findViewById(R.id.add);
 		search.setOnKeyListener(keyListener);
 		refreshScripts();
 	}
@@ -66,7 +69,7 @@ public class ScriptsActivity extends Activity {
 		ParseQuery query = new ParseQuery("Script");
 		query.whereEqualTo("username", currentUserName);
 		if (!searchText.equals(""))
-			query.whereEqualTo(key, value)("name", searchText);
+			query.whereEqualTo("name", searchText);
 		query.orderByDescending("updatedAt");
 		query.findInBackground(new FindCallback() {
 			@Override
