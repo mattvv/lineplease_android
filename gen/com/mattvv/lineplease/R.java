@@ -63,11 +63,7 @@ public final class R {
         public static final int or=0x7f050002;
     }
     public static final class style {
-        /** <style name="CustomWindowTitleBackground">
-        <item name="android:background">@drawable/topbg</item>
-    </style>
- 
-         */
         public static final int CustomTheme=0x7f040000;
+        public static final int tableInput=0x7f040001;
     }
 }

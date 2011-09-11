@@ -6,23 +6,16 @@
 	android:gravity="center_horizontal">
     <EditText 
     	android:hint="Username" 
-    	android:textSize="14.5sp"
     	android:id="@+id/username"
-    	android:paddingTop="10dip"
     	android:background="@drawable/tabletop" 
-    	android:layout_width="200dip" 
-    	android:layout_height="40dip" 
-    	android:paddingLeft="15dip" android:paddingBottom="5dip" android:paddingRight="15dip"
+    	style="@style/tableInput"
     	></EditText>
 	<EditText 
 		android:hint="Password"
 		android:id="@+id/password"
-		android:textSize="14.5sp"
 		android:inputType="textPassword"
     	android:background="@drawable/tablebottom" 
-    	android:layout_width="200dip"
-    	android:layout_height="40dip"  
-    	android:paddingLeft="15dip" android:paddingBottom="5dip" android:paddingRight="15dip"
+    	style="@style/tableInput"
 		>
 		</EditText>
 	<Button android:text="Login" android:id="@+id/login"
