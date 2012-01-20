@@ -141,6 +141,11 @@ public class LinesActivity extends Activity implements OnInitListener {
     		
     		@Override
     		public void run() {
+    			if (wantedChild - 1 < 0 || wantedChild - 1 >= listView.getChildCount()) {
+    				final TextView oldLine = (TextView) listView.getChildAt(wantedChild);
+    				oldLine.setTextColor(Color.BLACK);
+    			}
+    			
 		        if (speak)
 		        	newLine.setTextColor(Color.RED);
 		        else

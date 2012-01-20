@@ -3,6 +3,7 @@ package com.mattvv.lineplease;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -41,18 +42,32 @@ public class LoginActivity extends Activity {
 
 		createNewAccount.setOnClickListener(ButtonClickListeners);
 		login.setOnClickListener(ButtonClickListeners);
-
+		
+		SharedPreferences settings = getSharedPreferences("LinePlease", 0);
+		String username = settings.getString("username", "");
+		String password = settings.getString("password", "");
+		
+		EditText usernameField = (EditText) findViewById(R.id.username);
+		EditText passwordField = (EditText) findViewById(R.id.password);
+		
+		usernameField.setText(username);
+		passwordField.setText(password);
 	}
 
 	public void collectDataAndLogin() {
-		EditText username = (EditText) findViewById(R.id.username);
-		EditText password = (EditText) findViewById(R.id.password);
+		EditText usernameField = (EditText) findViewById(R.id.username);
+		EditText passwordField = (EditText) findViewById(R.id.password);
+		
+		final String username = usernameField.getText().toString();
+		final String password = passwordField.getText().toString();
 
-		ParseUser.logInInBackground(username.getText().toString(), password.getText().toString(), new LogInCallback() {
+		ParseUser.logInInBackground(username, password, new LogInCallback() {
 			@Override
 			public void done(ParseUser user, ParseException e) {
-				if ((e == null) && (user != null))
+				if ((e == null) && (user != null)) {
+					saveLogin(username, password);
 					loginSuccessful();
+				}
 				else if (user == null)
 					usernameOrPasswordIsInvalid();
 				else
@@ -69,6 +84,13 @@ public class LoginActivity extends Activity {
 		Toast.makeText(LoginActivity.this, "Successful Login", Toast.LENGTH_LONG).show();
 		Intent intent = new Intent(this, ScriptsActivity.class);
 		startActivityForResult(intent, 0);
+	}
+	
+	public void saveLogin(String username, String password) {
+		SharedPreferences settings = getSharedPreferences("LinePlease", 0);
+    	SharedPreferences.Editor editor = settings.edit();
+    	editor.putString("username", username);
+    	editor.putString("password", password);
 	}
 
 	public void usernameOrPasswordIsInvalid() {
