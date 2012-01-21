@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionCode="1"
-	android:versionName="1.0" package="com.mattvv.lineplease">
+	package="com.mattvv.lineplease" android:versionName="1.0.2" android:versionCode="102">
 	<uses-sdk android:minSdkVersion="8" />
-
+	<uses-permission android:name="android.permission.INTERNET" />
+	
 	<application 
 		android:icon="@drawable/icon" 
 		android:label="@string/app_name"
@@ -20,9 +20,6 @@
 		<activity android:name="RegisterActivity" />
 		<activity android:name="ScriptsActivity" />
 		<activity android:name="LinesActivity" />
-
-
-
+		<activity android:name="AddLinesActivity" />	
 	</application>
-	<uses-permission android:name="android.permission.INTERNET" />
 </manifest>

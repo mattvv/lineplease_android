@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, ParseStarterProjectActivity!</string>
     <string name="app_name">Line Please</string>
-    <string name="or">OR</string>
     <string name="add_button">+</string>
+    <string name="back">Back</string>
+    <string name="empty"></string>
+    <string name="character">Character</string>
+    <string name="line">Line</string>
+    <string name="add_lines_online">You can add your lines online too!\nJust visit http://linepela.se and start adding</string>
+    <string name="add_line">Add Line</string>
 </resources>

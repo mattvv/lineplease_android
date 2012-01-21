@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -21,13 +22,9 @@ import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -175,22 +172,6 @@ public class LinesActivity extends Activity implements OnInitListener {
             }
     }	
 
-	public void addLine(String characterInput, String lineInput) {
-		line = new ParseObject("Line");
-
-		line.put("character", characterInput);
-		line.put("scriptId", scriptId);
-		line.put("line", lineInput);
-		
-		try {
-			line.save();
-			refreshLines();
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	}
-	
 	public void deleteLineAlert(int position) {
 		Log.d("Delete", "Deleting Line");
 		final String lineId = lineIds.get(position);
@@ -337,37 +318,6 @@ public class LinesActivity extends Activity implements OnInitListener {
 		setLoading(false);
 	}
 	
-    	
-	public void addLineAlert() {
-		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		alert.setTitle("Add Line");
-
-		// Set an EditText view to get user input
-		final LinearLayout alertLayout = new LinearLayout(this);
-		final AutoCompleteTextView character = new AutoCompleteTextView(this);
-		final EditText line = new EditText(this);
-		character.setHint("Character");
-		line.setHint("Line");
-		alertLayout.addView(character);
-		alertLayout.addView(line);
-		alert.setView(alertLayout);
-
-		alert.setPositiveButton("Add Line", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(line.getWindowToken(), 0);
-				addLine(character.getText().toString().toLowerCase(), line.getText().toString());
-			}
-		});
-
-		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				// Canceled.
-			}
-		});
-		alert.show();
-	}
-	
 	public void playLinesAlert() {
 		listView.setSelection(0);
 		ArrayList<String> newCharacters = cleanCharacters();
@@ -425,7 +375,9 @@ public class LinesActivity extends Activity implements OnInitListener {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.add:
-				addLineAlert();
+				AddLinesActivity.scriptId = scriptId;
+				Intent intent = new Intent(ctx, AddLinesActivity.class);
+				startActivityForResult(intent, 0);
 				break;
 
 			case R.id.play:
