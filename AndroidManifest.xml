@@ -20,6 +20,7 @@
 		<activity android:name="RegisterActivity" />
 		<activity android:name="ScriptsActivity" />
 		<activity android:name="LinesActivity" />
-		<activity android:name="AddLinesActivity" />	
+		<activity android:name="AddLinesActivity" />
+		<activity android:name="ResetPasswordActivity" />
 	</application>
 </manifest>

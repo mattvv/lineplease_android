@@ -43,10 +43,12 @@ public class LoginActivity extends Activity {
 		Button createNewAccount = (Button) findViewById(R.id.createNewAccount);
 		Button login = (Button) findViewById(R.id.login);
 		Button facebook = (Button) findViewById(R.id.facebook);
+		Button resetPassword = (Button) findViewById(R.id.resetPassword);
 
 		createNewAccount.setOnClickListener(ButtonClickListeners);
 		login.setOnClickListener(ButtonClickListeners);
 		facebook.setOnClickListener(ButtonClickListeners);
+		resetPassword.setOnClickListener(ButtonClickListeners);
 		
 		SharedPreferences settings = getSharedPreferences("LinePlease", 0);
 		String username = settings.getString("username", "");
@@ -140,7 +142,10 @@ public class LoginActivity extends Activity {
 				intent = new Intent(v.getContext(), RegisterActivity.class);
 				startActivityForResult(intent, 0);
 				break;
-
+			case R.id.resetPassword:
+				intent = new Intent(v.getContext(), ResetPasswordActivity.class);
+				startActivityForResult(intent, 0);
+				break;
 			}
 
 		}
