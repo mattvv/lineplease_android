@@ -58,9 +58,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 	private TextToSpeech lineSpeaker = null;
 	private ArrayList<Locale> availableLocales = null;
 	private ArrayList<String> lines = null;
-	private ArrayList<String> lineIds = null;
-	private ArrayList<String> characters = null;
-	private ArrayList<String> lineSpeech = null;
+	private ArrayList<ParseObject> lineObjects = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -174,8 +172,8 @@ public class LinesActivity extends Activity implements OnInitListener {
 
 	public void deleteLineAlert(int position) {
 		Log.d("Delete", "Deleting Line");
-		final String lineId = lineIds.get(position);
-		String lineName = lines.get(position);
+		final String lineId = lineObjects.get(position).getObjectId();
+		String lineName = lineObjects.get(position).getString("line");
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage("Are you sure you want to delete the line \n" + lineName)
@@ -223,9 +221,9 @@ public class LinesActivity extends Activity implements OnInitListener {
 	public void playLines(String selectedCharacter) {
 		setLoading(true);
 		stop.setVisibility(Button.VISIBLE);
-		for (int i = 0; i < characters.size(); i++) {
+		for (int i = 0; i < lineObjects.size(); i++) {
 			HashMap<String, String> whosSpeaking = new HashMap<String, String>();
-			String remoteCharacter = characters.get(i).toString().toLowerCase().replaceAll("\\W","");
+			String remoteCharacter = lineObjects.get(i).getString("character").toString().toLowerCase().replaceAll("\\W","");
 
 			//Highlight First Line before message is played
 			if (i == 0) {
@@ -237,9 +235,9 @@ public class LinesActivity extends Activity implements OnInitListener {
 			
 			String utteranceKey = Integer.toString(i);
 						
-			if (i+1 < characters.size()) {
+			if (i+1 < lineObjects.size()) {
 				//Only highlight the next line played (as this gets trigger
-				String nextRemoteCharacter = characters.get(i+1).toString().toLowerCase().replaceAll("\\W","");
+				String nextRemoteCharacter = lineObjects.get(i+1).getString("character").toString().toLowerCase().replaceAll("\\W","");
 				utteranceKey = Integer.toString(i+1);
 				if (selectedCharacter.equals(nextRemoteCharacter))
 					utteranceKey += " yes";
@@ -253,11 +251,11 @@ public class LinesActivity extends Activity implements OnInitListener {
 			Log.d("UTTERANCE ID", "UTTERANCE " + utteranceKey);		
 			if (selectedCharacter.equals(remoteCharacter)) {
 				//User speaks this line so we play silence
-				long silence = calculateSilence(lineSpeech.get(i));
+				long silence = calculateSilence(lineObjects.get(i).getString("line"));
 				lineSpeaker.playSilence(silence, TextToSpeech.QUEUE_ADD, whosSpeaking);
 			} else {
 				//We speak this line
-				lineSpeaker.speak(lineSpeech.get(i), TextToSpeech.QUEUE_ADD, whosSpeaking);
+				lineSpeaker.speak(lineObjects.get(i).getString("line"), TextToSpeech.QUEUE_ADD, whosSpeaking);
 			}
 		}	
 	}
@@ -288,16 +286,12 @@ public class LinesActivity extends Activity implements OnInitListener {
 			@Override
 			public void done(List<ParseObject> lineList, ParseException e) {
 				lines = new ArrayList<String>();
-				lineIds = new ArrayList<String>();
-				characters = new ArrayList<String>();
-				lineSpeech = new ArrayList<String>();
+				lineObjects = new ArrayList<ParseObject>();
 
 				if (e == null) {
 					for (int i = 0; i < lineList.size(); i++) {
 						lines.add(lineList.get(i).getString("character").toUpperCase() + "\n" + lineList.get(i).getString("line"));
-						lineIds.add(lineList.get(i).objectId());
-						characters.add(lineList.get(i).getString("character"));
-						lineSpeech.add(lineList.get(i).getString("line"));
+						lineObjects.add(lineList.get(i));
 					}
 					setListView();
 				} else {
@@ -340,8 +334,8 @@ public class LinesActivity extends Activity implements OnInitListener {
 	
 	public ArrayList<String> cleanCharacters() {
 		ArrayList<String> newCharacters = new ArrayList<String>();
-		for (int i=0; i < characters.size(); i++) {
-			String character = characters.get(i).toString().toUpperCase();
+		for (int i=0; i < lineObjects.size(); i++) {
+			String character = lineObjects.get(i).getString("character").toString().toUpperCase();
 			character = character.replaceAll("\\W","");
 			Log.d("Character", "Character $" + character + "$");
 			if (!newCharacters.contains(character))
