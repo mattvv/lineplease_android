@@ -389,7 +389,12 @@ public class LinesActivity extends Activity implements OnInitListener, OnQuickAc
 				lineSpeaker.playSilence(silence, TextToSpeech.QUEUE_ADD, whosSpeaking);
 			} else {
 				//We speak this line
-				lineSpeaker.setPitch(0.5f); 
+				//todo: set if gender is male
+				if (lineObjects.get(i).getString("gender") == "male")
+					lineSpeaker.setPitch(0.5f);
+				else
+					lineSpeaker.setPitch(1.0f);
+				
 				lineSpeaker.speak(lineObjects.get(i).getString("line"), TextToSpeech.QUEUE_ADD, whosSpeaking);
 			}
 		}	
