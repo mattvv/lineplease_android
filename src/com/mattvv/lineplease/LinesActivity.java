@@ -140,12 +140,12 @@ public class LinesActivity extends Activity implements OnInitListener,
 		mQuickActionSetup.setStopOffset(AndroidUtils.dipToPixel(this, 50));
 		mQuickActionSetup.setSwipeOnLongClick(true);
 
-		mQuickActionSetup.addAction(QuickAction.RECORD, "Record Limattne",
-				R.drawable.quickaction_urlopen);
+		//mQuickActionSetup.addAction(QuickAction.RECORD, "Record Limattne",
+		//		R.drawable.quickaction_urlopen);
 		mQuickActionSetup.addAction(QuickAction.EDIT, "Edit Line",
-				R.drawable.quickaction_urlopen);
+				R.drawable.edit);
 		mQuickActionSetup.addAction(QuickAction.DELETE, "Delete Line",
-				R.drawable.quickaction_url);
+				R.drawable.delete);
 	}
 
 	/**
