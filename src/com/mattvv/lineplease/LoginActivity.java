@@ -14,7 +14,9 @@ import android.widget.Toast;
 import com.mattvv.lineplease.helper.appkey;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+import com.parse.facebook.*;
 import com.mattvv.lineplease.R;
 
 public class LoginActivity extends Activity {
@@ -31,6 +33,7 @@ public class LoginActivity extends Activity {
 		// Parse.initialize(this, "n0D8qXij0RvYimevJh4uqUBt8gxoO52onyQmbx43",
 		// "QCNJTHV3Om2tC2C1Tz1QG0uvIx9h1d7zsY0oGUmc");
 		appkey.initializeAppKey(this);
+		ParseFacebookUtils.initialize("192662437476636");
 		setContentView(R.layout.login);
 
 		// ParseObject testObject = new ParseObject("TestObject");
@@ -39,9 +42,11 @@ public class LoginActivity extends Activity {
 		// testObject.saveInBackground();
 		Button createNewAccount = (Button) findViewById(R.id.createNewAccount);
 		Button login = (Button) findViewById(R.id.login);
+		Button facebook = (Button) findViewById(R.id.facebook);
 
 		createNewAccount.setOnClickListener(ButtonClickListeners);
 		login.setOnClickListener(ButtonClickListeners);
+		facebook.setOnClickListener(ButtonClickListeners);
 		
 		SharedPreferences settings = getSharedPreferences("LinePlease", 0);
 		String username = settings.getString("username", "");
@@ -73,6 +78,21 @@ public class LoginActivity extends Activity {
 				else
 					somethingWentWrong(e);
 			}
+		});
+	}
+	
+	public void facebookLogin() {
+		ParseFacebookUtils.logIn(this, new LogInCallback() {
+		    @Override
+		    public void done(ParseUser user, ParseException err) {
+		        if (user == null) {
+		        	Toast.makeText(LoginActivity.this, "Facebook Login Unsuccessful", Toast.LENGTH_LONG).show();
+		        } else if (user.isNew()) {
+		        	loginSuccessful();
+		        } else {
+		        	loginSuccessful();
+		        }
+		    }
 		});
 	}
 
@@ -112,6 +132,9 @@ public class LoginActivity extends Activity {
 
 				// intent = new Intent(v.getContext(), RegisterActivity.class);
 				// startActivityForResult(intent, 0);
+				break;
+			case R.id.facebook:
+				facebookLogin();
 				break;
 			case R.id.createNewAccount:
 				intent = new Intent(v.getContext(), RegisterActivity.class);

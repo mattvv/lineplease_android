@@ -255,6 +255,7 @@ public class LinesActivity extends Activity implements OnInitListener {
 				lineSpeaker.playSilence(silence, TextToSpeech.QUEUE_ADD, whosSpeaking);
 			} else {
 				//We speak this line
+				lineSpeaker.setPitch(0.5f); 
 				lineSpeaker.speak(lineObjects.get(i).getString("line"), TextToSpeech.QUEUE_ADD, whosSpeaking);
 			}
 		}	

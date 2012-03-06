@@ -32,6 +32,12 @@
 		android:background="@drawable/button_purple"
 		style="@style/ButtonText">
 	</Button>
+	<Button 
+		android:text="Facebook" 
+		android:id="@+id/facebook"
+		android:background="@drawable/button_purple"
+		style="@style/ButtonText">
+	</Button>	
 	<ImageView
 		android:layout_width="0dip"
 		android:layout_height="100dip"
