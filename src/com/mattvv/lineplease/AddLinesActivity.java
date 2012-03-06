@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +28,8 @@ public class AddLinesActivity extends Activity {
 	EditText character;
 	EditText line;
 	
+	static ParseObject lineObject;	
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -44,10 +47,26 @@ public class AddLinesActivity extends Activity {
 		
 		loading = (ProgressBar) findViewById(R.id.loading_add_lines);
 		loading.setVisibility(ProgressBar.INVISIBLE);
+		
+		if (getIntent().getExtras() != null) {
+			if (getIntent().getExtras().getBoolean("EDIT_MODE") == true) {
+				Log.e("Yup", "In Edit mode");
+				scriptId = lineObject.getString("scriptId");
+				addLine.setText("Save");
+				character.setText(lineObject.getString("character"));
+				line.setText(lineObject.getString("line"));
+			}
+		}
 	}
 	
 	public void addLine() {
-		ParseObject newLine = new ParseObject("Line");
+		ParseObject newLine = null;
+		if (getIntent().getExtras().getBoolean("EDIT_MODE") == true) {
+			newLine = lineObject;
+		} else {
+			newLine = new ParseObject("Line");
+		}
+		
 
 		newLine.put("character", character.getText().toString());
 		newLine.put("scriptId", scriptId);
