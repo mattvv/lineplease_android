@@ -44,12 +44,13 @@
 			style="@style/ButtonText"> 
         	</Button>
     </LinearLayout>
-	<ListView android:id="@+id/listviewlines" android:layout_height="wrap_content"
+	<de.viktorreiser.toolbox.widget.SwipeableListView
+	    android:id="@+id/listviewlines" android:layout_height="wrap_content"
 		android:layout_weight="1"
 		android:layout_width="fill_parent"
 		android:divider="#666666"
 		android:isScrollContainer="true"
 		android:background="@android:color/transparent"
 		android:cacheColorHint="#00000000"
-	></ListView>
+	></de.viktorreiser.toolbox.widget.SwipeableListView>
 </LinearLayout>

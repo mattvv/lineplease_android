@@ -22,9 +22,13 @@ import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Interpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -39,13 +43,23 @@ import com.parse.ParseUser;
 
 import com.mattvv.lineplease.R;
 
-public class LinesActivity extends Activity implements OnInitListener {
+//import de.viktorreiser.androidtoolbox.showcase.swipeable.SwipeableListQuickActionActivity.QuickAction;
+//import de.viktorreiser.androidtoolbox.showcase.swipeable.SwipeableListQuickActionActivity.QuickAction;
+//import de.viktorreiser.androidtoolbox.showcase.swipeable.SwipeableListQuickActionActivity.MyAdapter.ViewHolder;
+//import de.viktorreiser.androidtoolbox.showcase.swipeable.SwipeableListQuickActionActivity.MyAdapter;
+import de.viktorreiser.toolbox.util.AndroidUtils;
+import de.viktorreiser.toolbox.widget.HiddenQuickActionSetup;
+import de.viktorreiser.toolbox.widget.SwipeableHiddenView;
+import de.viktorreiser.toolbox.widget.HiddenQuickActionSetup.OnQuickActionListener;
+import de.viktorreiser.toolbox.widget.SwipeableListView;
+
+public class LinesActivity extends Activity implements OnInitListener, OnQuickActionListener {
 	/** Called when the activity is first created. */
 	ParseUser user;
 	ParseObject line;
 	public static String scriptId;
 	
-	ListView listView;
+	SwipeableListView listView;
 	Context ctx;
 
 	Timer timer;
@@ -59,6 +73,119 @@ public class LinesActivity extends Activity implements OnInitListener {
 	private ArrayList<Locale> availableLocales = null;
 	private ArrayList<String> lines = null;
 	private ArrayList<ParseObject> lineObjects = null;
+	
+	// PRIVATE ====================================================================================	
+	private static final class QuickAction {
+		public static final int OPEN = 1;
+		public static final int COPY = 2;
+	}
+	
+	
+	private HiddenQuickActionSetup mQuickActionSetup;
+	
+	/**
+	 * React on quick action click.
+	 */
+	@Override
+	public void onQuickAction(AdapterView<?> parent, View view, int position, int quickActionId) {
+		switch (quickActionId) {
+		case QuickAction.OPEN:
+			Toast.makeText(this, "Clicked Open", Toast.LENGTH_SHORT).show();
+			break;
+		
+		case QuickAction.COPY:
+			Toast.makeText(this, "Clicked Copy", Toast.LENGTH_SHORT).show();
+			break;
+		}
+	}
+	/**
+	 * Create a global quick action setup.
+	 */
+	private void setupQuickAction() {
+		mQuickActionSetup = new HiddenQuickActionSetup(this);
+		mQuickActionSetup.setOnQuickActionListener(this);
+		
+		// a nice cubic ease animation
+		mQuickActionSetup.setOpenAnimation(new Interpolator() {
+			@Override
+			public float getInterpolation(float v) {
+				v -= 1;
+				return v * v * v + 1;
+			}
+		});
+		mQuickActionSetup.setCloseAnimation(new Interpolator() {
+			@Override
+			public float getInterpolation(float v) {
+				return v * v * v;
+			}
+		});
+		
+		int imageSize = AndroidUtils.dipToPixel(this, 40);
+		
+		mQuickActionSetup.setBackgroundResource(R.drawable.quickaction_background);
+		mQuickActionSetup.setImageSize(imageSize, imageSize);
+		mQuickActionSetup.setAnimationSpeed(700);
+		mQuickActionSetup.setStartOffset(AndroidUtils.dipToPixel(this, 30));
+		mQuickActionSetup.setStopOffset(AndroidUtils.dipToPixel(this, 50));
+		mQuickActionSetup.setSwipeOnLongClick(true);
+		
+		mQuickActionSetup.addAction(QuickAction.OPEN,
+				"Open URL", R.drawable.quickaction_urlopen);
+		mQuickActionSetup.addAction(QuickAction.COPY,
+				"Copy URL to clipboard", R.drawable.quickaction_url);
+	}
+	
+	/**
+	 * Adapter which creates the list items and initializes them with the quick action setup.
+	 * 
+	 * @author Viktor Reiser &lt;<a href="mailto:viktorreiser@gmx.de">viktorreiser@gmx.de</a>&gt;
+	 */
+	private class MyAdapter extends BaseAdapter {
+		
+		@Override
+		public int getCount() {
+			return lineObjects.size();
+		}
+		
+		@Override
+		public Object getItem(int position) {
+			return position;
+		}
+		
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			ViewHolder holder;
+			
+			if (convertView == null) {
+				convertView = (SwipeableHiddenView) getLayoutInflater().inflate(
+						R.layout.line_row, null);
+				((SwipeableHiddenView) convertView).setHiddenViewSetup(mQuickActionSetup);
+				
+				holder = new ViewHolder();
+				holder.character = (TextView) convertView.findViewById(R.id.character);
+				holder.line = (TextView) convertView.findViewById(R.id.line);
+				
+				convertView.setTag(holder);
+			} else {
+				holder = (ViewHolder) convertView.getTag();
+			}
+			
+			holder.character.setText(lineObjects.get(position).getString("character"));
+			holder.line.setText(lineObjects.get(position).getString("line"));
+			
+			return convertView;
+		}
+		
+		private class ViewHolder {
+			public TextView character;
+			public TextView line;
+		}
+	}	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -78,8 +205,9 @@ public class LinesActivity extends Activity implements OnInitListener {
 		play.setOnClickListener(ButtonClickListeners);
 		stop.setOnClickListener(ButtonClickListeners);
 		
-		listView = (ListView) findViewById(R.id.listviewlines);
+		listView = (SwipeableListView) findViewById(R.id.listviewlines);
 		refreshLines();
+		
 		setLoading(true);
 	}
 	
@@ -120,9 +248,11 @@ public class LinesActivity extends Activity implements OnInitListener {
     }
 	
 	private void highlightLine(final int line, final boolean speak) {
-		
+		//todo: move most of the heavy lifting of this to the adapter
 		final int wantedChild = line - listView.getFirstVisiblePosition();
-		final TextView newLine = (TextView) listView.getChildAt(wantedChild);
+		final SwipeableHiddenView lineRow = (SwipeableHiddenView) listView.getChildAt(wantedChild);
+		final LinearLayout layout = (LinearLayout) lineRow.getChildAt(1);
+		final TextView newLine = (TextView) layout.getChildAt(1);
 		
 		if (wantedChild < 0 || wantedChild >= listView.getChildCount()) {
 			  return;
@@ -137,7 +267,9 @@ public class LinesActivity extends Activity implements OnInitListener {
     		@Override
     		public void run() {
     			if (wantedChild - 1 < 0 || wantedChild - 1 >= listView.getChildCount()) {
-    				final TextView oldLine = (TextView) listView.getChildAt(wantedChild);
+    				final SwipeableHiddenView oldRow = (SwipeableHiddenView) listView.getChildAt(wantedChild);
+    				final LinearLayout oldLayout = (LinearLayout) oldRow.getChildAt(1);
+    				final TextView oldLine = (TextView) oldLayout.getChildAt(1);
     				oldLine.setTextColor(Color.BLACK);
     			}
     			
@@ -148,7 +280,9 @@ public class LinesActivity extends Activity implements OnInitListener {
 		     
 		        listView.setSelection(wantedChild);
 		        for (int i=wantedChild+1; i < listView.getChildCount(); i++) {
-		        	TextView extraLine = (TextView) listView.getChildAt(i);
+		        	SwipeableHiddenView extraRow = (SwipeableHiddenView) listView.getChildAt(i);
+    				final LinearLayout extraLayout = (LinearLayout) extraRow.getChildAt(1);
+    				final TextView extraLine = (TextView) extraLayout.getChildAt(1);		        	
 		        	extraLine.setTextColor(Color.BLACK);
 		        }
     		}
@@ -295,6 +429,8 @@ public class LinesActivity extends Activity implements OnInitListener {
 						lineObjects.add(lineList.get(i));
 					}
 					setListView();
+					setupQuickAction();
+					listView.setAdapter(new MyAdapter());
 				} else {
 					Log.d("line", "Error: " + e.getMessage());
 					Toast.makeText(LinesActivity.this, "BAD FAILED", Toast.LENGTH_LONG).show();
@@ -412,6 +548,17 @@ public class LinesActivity extends Activity implements OnInitListener {
 		}
 
 	};
+	
+	@Override
+	protected void onDestroy() {
+	    //Close the Text to Speech Library
+	    if(lineSpeaker != null) {
+
+	    	lineSpeaker.stop();
+	    	lineSpeaker.shutdown();
+	    }
+	    super.onDestroy();
+	}
 	
 	
 }
