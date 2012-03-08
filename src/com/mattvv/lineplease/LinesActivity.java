@@ -546,6 +546,7 @@ public class LinesActivity extends Activity implements OnInitListener,
 						Toast.LENGTH_SHORT).show();
 				try {
 					selectedCharacter = items[item].toString().toLowerCase();
+					currentLine = 0;
 					playNextLine();
 				} catch (ParseException e) {
 					e.printStackTrace();
