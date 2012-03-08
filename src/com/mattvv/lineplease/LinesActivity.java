@@ -1,5 +1,9 @@
 package com.mattvv.lineplease;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import java.util.HashMap;
@@ -15,6 +19,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
@@ -37,6 +42,7 @@ import android.widget.Toast;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -74,6 +80,10 @@ public class LinesActivity extends Activity implements OnInitListener,
 	private ArrayList<Locale> availableLocales = null;
 	private ArrayList<String> lines = null;
 	private ArrayList<ParseObject> lineObjects = null;
+	
+	private MediaPlayer mediaPlayer;
+	private int currentLine = 0;
+	private String selectedCharacter;
 
 	// PRIVATE
 	// ====================================================================================
@@ -84,6 +94,23 @@ public class LinesActivity extends Activity implements OnInitListener,
 	}
 
 	private HiddenQuickActionSetup mQuickActionSetup;
+
+
+	// setup Media Player Delegate
+	MediaPlayer.OnCompletionListener MediaPlayerCompletionListener = new MediaPlayer.OnCompletionListener() {
+
+		@Override
+		public void onCompletion(MediaPlayer mp) {
+			currentLine++;
+			try {
+				playNextLine();
+			} catch (ParseException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	};
 
 	/**
 	 * React on quick action click.
@@ -227,6 +254,8 @@ public class LinesActivity extends Activity implements OnInitListener,
 		refreshLines();
 
 		setLoading(true);
+		mediaPlayer = new MediaPlayer();
+		mediaPlayer.setOnCompletionListener(MediaPlayerCompletionListener);		
 	}
 
 	@Override
@@ -235,30 +264,17 @@ public class LinesActivity extends Activity implements OnInitListener,
 
 		if (isAvailable) {
 			EnumerateAvailableLanguages();
-			lineSpeaker
-					.setOnUtteranceCompletedListener(new OnUtteranceCompletedListener() {
+			lineSpeaker.setOnUtteranceCompletedListener(new OnUtteranceCompletedListener() {
 						@Override
 						public void onUtteranceCompleted(String utteranceId) {
-							String message = utteranceId;
-							if (message.equals("end")) {
-								runOnUiThread(new Runnable() {
-
-									@Override
-									public void run() {
-										refreshLines();
-									}
-								});
-							} else {
-								String[] messages = message.split(" ");
-								boolean speak = false;
-								if (messages.length > 1) {
-									Log.d("Boolean", messages[1]);
-
-									if (messages[1].equals("yes"))
-										speak = true;
-								}
-								highlightLine(Integer.parseInt(messages[0]),
-										speak);
+							currentLine++;
+							
+							try {
+								playNextLine();
+							} catch (ParseException e) {
+								e.printStackTrace();
+							} catch (IOException e) {
+								e.printStackTrace();
 							}
 						}
 					});
@@ -379,58 +395,70 @@ public class LinesActivity extends Activity implements OnInitListener,
 		}
 	}
 
-	public void playLines(String selectedCharacter) {
+	public void playNextLine() throws ParseException, IOException {
 		setLoading(true);
+		
+		if (currentLine >= lineObjects.size()) {
+			stopPlayingLines();
+			return;
+		}
+		
 		stop.setVisibility(Button.VISIBLE);
-		for (int i = 0; i < lineObjects.size(); i++) {
-			HashMap<String, String> whosSpeaking = new HashMap<String, String>();
-			String remoteCharacter = lineObjects.get(i).getString("character")
+		HashMap<String, String> whosSpeaking = new HashMap<String, String>();
+		String remoteCharacter = lineObjects.get(currentLine).getString("character")
 					.toString().toLowerCase().replaceAll("\\W", "");
 
-			// Highlight First Line before message is played
-			if (i == 0) {
-				if (selectedCharacter.equals(remoteCharacter))
-					highlightLine(0, true);
-				else
-					highlightLine(0, false);
-			}
+		whosSpeaking.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
+				"yes");
+		
+		if (!(lineObjects.get(currentLine).getString("recorded") == null) && (lineObjects.get(currentLine).getString("recorded").equals("yes"))) {
+			getAndPlayLine(lineObjects.get(currentLine));
+			highlightLine(currentLine, true);
+		} else if (selectedCharacter.equals(remoteCharacter)) {
+			// User speaks this line so we play silence
+			long silence = calculateSilence(lineObjects.get(currentLine).getString(
+					"line"));
+			lineSpeaker.playSilence(silence, TextToSpeech.QUEUE_FLUSH, whosSpeaking);
+			highlightLine(currentLine, false);
+		} else {
+			// We speak this line
+			// todo: set if gender is male
+			if (!(lineObjects.get(currentLine).getString("gender") == null) && lineObjects.get(currentLine).getString("gender").equals("male"))
+				lineSpeaker.setPitch(0.5f);
+			else
+				lineSpeaker.setPitch(1.0f);
+			lineSpeaker.speak(lineObjects.get(currentLine).getString("line"), TextToSpeech.QUEUE_FLUSH, whosSpeaking);
+			highlightLine(currentLine, true);
+		}
+	}
+	
+	public void getAndPlayLine(ParseObject line) throws ParseException, IOException {
+		FileInputStream fileInputStream;
+		try {
+			fileInputStream = openFileInput(line.getObjectId());
+	    } catch (FileNotFoundException e) {
+			//file is not cached so download from parse
+			ParseFile recordedLine = (ParseFile)line.get("recordingFile");
 
-			String utteranceKey = Integer.toString(i);
-
-			if (i + 1 < lineObjects.size()) {
-				// Only highlight the next line played (as this gets trigger
-				String nextRemoteCharacter = lineObjects.get(i + 1)
-						.getString("character").toString().toLowerCase()
-						.replaceAll("\\W", "");
-				utteranceKey = Integer.toString(i + 1);
-				if (selectedCharacter.equals(nextRemoteCharacter))
-					utteranceKey += " yes";
-				else
-					utteranceKey += " no";
-			} else {
-				utteranceKey = "end";
-			}
-
-			whosSpeaking.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
-					utteranceKey);
-			Log.d("UTTERANCE ID", "UTTERANCE " + utteranceKey);
-			if (selectedCharacter.equals(remoteCharacter)) {
-				// User speaks this line so we play silence
-				long silence = calculateSilence(lineObjects.get(i).getString(
-						"line"));
-				lineSpeaker.playSilence(silence, TextToSpeech.QUEUE_ADD,
-						whosSpeaking);
-			} else {
-				// We speak this line
-				// todo: set if gender is male
-				if (lineObjects.get(i).getString("gender") == "male")
-					lineSpeaker.setPitch(0.5f);
-				else
-					lineSpeaker.setPitch(1.0f);
-
-				lineSpeaker.speak(lineObjects.get(i).getString("line"),
-						TextToSpeech.QUEUE_ADD, whosSpeaking);
-			}
+			byte[] audioData = recordedLine.getData();
+	        FileOutputStream stream = openFileOutput(line.getObjectId(), Context.MODE_PRIVATE); 
+	        stream.write(audioData); 
+	        fileInputStream = openFileInput(line.getObjectId());
+	    }
+	    
+		try 
+	    { 
+			mediaPlayer.reset();
+			// set audio source from filedescriptor
+			mediaPlayer.setDataSource(fileInputStream.getFD());
+			mediaPlayer.prepare();
+			mediaPlayer.start();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -450,6 +478,16 @@ public class LinesActivity extends Activity implements OnInitListener,
 
 	public void jumpToLastLine() {
 		listView.smoothScrollToPosition(listView.getChildCount() - 1);
+	}
+	
+	public void refreshLinesOnUi() {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				refreshLines();
+			}
+		});
 	}
 
 	public void refreshLines() {
@@ -506,7 +544,14 @@ public class LinesActivity extends Activity implements OnInitListener,
 			public void onClick(DialogInterface dialog, int item) {
 				Toast.makeText(getApplicationContext(), items[item],
 						Toast.LENGTH_SHORT).show();
-				playLines(items[item].toString().toLowerCase());
+				try {
+					selectedCharacter = items[item].toString().toLowerCase();
+					playNextLine();
+				} catch (ParseException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		AlertDialog alert = builder.create();
@@ -526,23 +571,30 @@ public class LinesActivity extends Activity implements OnInitListener,
 		return newCharacters;
 	}
 
-	public void setLoading(boolean load) {
-		if (load) {
-			loading.setVisibility(ProgressBar.VISIBLE);
-			add.setEnabled(false);
-			play.setEnabled(false);
-		} else {
-			loading.setVisibility(ProgressBar.INVISIBLE);
-			stop.setVisibility(Button.INVISIBLE);
-			add.setEnabled(true);
-			play.setEnabled(true);
-		}
+	public void setLoading(final boolean load) {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				if (load) {
+					loading.setVisibility(ProgressBar.VISIBLE);
+					add.setEnabled(false);
+					play.setEnabled(false);
+				} else {
+					loading.setVisibility(ProgressBar.INVISIBLE);
+					stop.setVisibility(Button.INVISIBLE);
+					add.setEnabled(true);
+					play.setEnabled(true);
+				}
+			}
+		});
 	}
 
 	public void stopPlayingLines() {
 		lineSpeaker.stop();
+		mediaPlayer.stop();
 		setLoading(false);
-		refreshLines();
+		refreshLinesOnUi();
 	}
 
 	View.OnClickListener ButtonClickListeners = new View.OnClickListener() {
