@@ -22,6 +22,7 @@ public class AddLinesActivity extends Activity {
 	ProgressBar loading;
 	Context ctx;
 	
+	Button saveTopbar;
 	Button addLine;
 	Button back;
 	
@@ -41,8 +42,10 @@ public class AddLinesActivity extends Activity {
 		
 		addLine = (Button) findViewById(R.id.add_line);
 		back = (Button) findViewById(R.id.back_lines);
+		saveTopbar = (Button) findViewById(R.id.save_topbar);
 		addLine.setOnClickListener(ButtonClickListeners);
 		back.setOnClickListener(ButtonClickListeners);
+		saveTopbar.setOnClickListener(ButtonClickListeners);
 		
 		character = (EditText) findViewById(R.id.character);
 		line = (EditText) findViewById(R.id.line);
@@ -101,6 +104,7 @@ public class AddLinesActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
+			case R.id.save_topbar:
 			case R.id.add_line:
 				addLine();
 				break;

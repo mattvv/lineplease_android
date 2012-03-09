@@ -18,6 +18,14 @@
 			android:layout_gravity="center_vertical"
 			>
 		</ProgressBar>
+		<Button 
+        	android:layout_width="wrap_content" 
+        	android:layout_height="40dip"
+        	android:id="@+id/save_topbar"
+        	android:text="@string/save"
+        	android:background="@drawable/button_purple"
+			style="@style/ButtonText"> 
+        	</Button>
         <Button 
         	android:layout_width="wrap_content" 
         	android:layout_height="40dip"
