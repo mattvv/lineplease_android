@@ -30,6 +30,8 @@ public class AddLinesActivity extends Activity {
 	
 	static ParseObject lineObject;	
 	
+	boolean editMode = false;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,6 +52,7 @@ public class AddLinesActivity extends Activity {
 		
 		if (getIntent().getExtras() != null) {
 			if (getIntent().getExtras().getBoolean("EDIT_MODE") == true) {
+				editMode = true;
 				Log.e("Yup", "In Edit mode");
 				scriptId = lineObject.getString("scriptId");
 				addLine.setText("Save");
@@ -61,7 +64,7 @@ public class AddLinesActivity extends Activity {
 	
 	public void addLine() {
 		ParseObject newLine = null;
-		if (getIntent().getExtras().getBoolean("EDIT_MODE") == true) {
+		if (editMode) {
 			newLine = lineObject;
 		} else {
 			newLine = new ParseObject("Line");

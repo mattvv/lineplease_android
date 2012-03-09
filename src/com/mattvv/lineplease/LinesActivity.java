@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
@@ -438,17 +439,31 @@ public class LinesActivity extends Activity implements OnInitListener,
 	}
 	
 	public void getAndPlayLine(ParseObject line) throws ParseException, IOException {
-		FileInputStream fileInputStream;
+		FileInputStream fileInputStream = null;
+		
 		try {
-			fileInputStream = openFileInput(line.getObjectId());
+			fileInputStream = new FileInputStream(Environment.getExternalStorageDirectory() + "/." + line.getObjectId() + ".mp4");
 	    } catch (FileNotFoundException e) {
 			//file is not cached so download from parse
-			ParseFile recordedLine = (ParseFile)line.get("recordingFile");
-
-			byte[] audioData = recordedLine.getData();
-	        FileOutputStream stream = openFileOutput(line.getObjectId(), Context.MODE_PRIVATE); 
-	        stream.write(audioData); 
-	        fileInputStream = openFileInput(line.getObjectId());
+			ParseFile recordedLine = null;
+			byte[] audioData = null;
+			try {
+				recordedLine = (ParseFile)line.get("recordingFile");
+				audioData = recordedLine.getData();
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+			
+	        FileOutputStream stream;
+			try {
+				stream = new FileOutputStream(Environment.getExternalStorageDirectory() + "/." + line.getObjectId() + ".mp4");
+		        stream.write(audioData); 
+		        fileInputStream = openFileInput(line.getObjectId());
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			} 
 	    }
 	    
 		try 
@@ -464,7 +479,7 @@ public class LinesActivity extends Activity implements OnInitListener,
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}	
 	}
 
 	public long calculateSilence(String line) {

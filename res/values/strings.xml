@@ -15,4 +15,5 @@
     <string name="play_line">Play</string>
     <string name="remove_recording">Remove Recording</string>
     <string name="done">Done</string>
+    <string name="stop">Stop</string>
 </resources>

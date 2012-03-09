@@ -11,6 +11,15 @@
     	android:gravity="right" 
     	android:id="@+id/record_lines_sublayout"
     	android:background="@drawable/topbg">
+    	<Button 
+        	android:layout_width="wrap_content" 
+        	android:layout_height="40dip"
+        	android:id="@+id/stop_record_lines" 
+        	android:text="@string/stop"
+        	android:background="@drawable/button_black"
+        	android:visibility="invisible"
+			style="@style/ButtonText">
+		</Button>
     	<ProgressBar 
 			android:id="@+id/loading_record_lines" 
 			android:layout_height="20dip" 
