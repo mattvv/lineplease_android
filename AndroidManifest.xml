@@ -22,5 +22,7 @@
 		<activity android:name="LinesActivity" />
 		<activity android:name="AddLinesActivity" />
 		<activity android:name="ResetPasswordActivity" />
+		<activity android:name="RegisterActivity" />
+		<activity android:name="RecordLinesActivity" />
 	</application>
 </manifest>

@@ -88,9 +88,9 @@ public class LinesActivity extends Activity implements OnInitListener,
 	// PRIVATE
 	// ====================================================================================
 	private static final class QuickAction {
-		public static final int RECORD = 1;
-		public static final int EDIT = 2;
-		public static final int DELETE = 3;
+		public static final int RECORD = 0;
+		public static final int EDIT = 1;
+		public static final int DELETE = 2;
 	}
 
 	private HiddenQuickActionSetup mQuickActionSetup;
@@ -120,10 +120,9 @@ public class LinesActivity extends Activity implements OnInitListener,
 			int quickActionId) {
 		switch (quickActionId) {
 		case QuickAction.RECORD:
-			Toast.makeText(this, "Clicked Record", Toast.LENGTH_SHORT).show();
+			swapToRecordLine(view, position);
 			break;
 		case QuickAction.EDIT:
-			Toast.makeText(this, "Clicked Edit", Toast.LENGTH_SHORT).show();
 			AddLinesActivity.lineObject = lineObjects.get(position);
 			Intent intent = new Intent(view.getContext(), AddLinesActivity.class);
 			intent.putExtra("EDIT_MODE", true);
@@ -133,6 +132,12 @@ public class LinesActivity extends Activity implements OnInitListener,
 			deleteLineAlert(position);
 			break;
 		}
+	}
+	
+	private void swapToRecordLine(View view, int position) {
+		RecordLinesActivity.lineObject = lineObjects.get(position);
+		Intent intent = new Intent(ctx, RecordLinesActivity.class);
+		startActivityForResult(intent, 0);	
 	}
 
 	/**
@@ -167,8 +172,8 @@ public class LinesActivity extends Activity implements OnInitListener,
 		mQuickActionSetup.setStopOffset(AndroidUtils.dipToPixel(this, 50));
 		mQuickActionSetup.setSwipeOnLongClick(true);
 
-		//mQuickActionSetup.addAction(QuickAction.RECORD, "Record Limattne",
-		//		R.drawable.quickaction_urlopen);
+		mQuickActionSetup.addAction(QuickAction.RECORD, "Record Line",
+				R.drawable.microphone);
 		mQuickActionSetup.addAction(QuickAction.EDIT, "Edit Line",
 				R.drawable.edit);
 		mQuickActionSetup.addAction(QuickAction.DELETE, "Delete Line",

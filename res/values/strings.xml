@@ -11,4 +11,8 @@
     <string name="email">E-Mail</string>
     <string name="reset_password">Reset Password</string>
     <string name="cancel">Cancel</string>
+    <string name="record_line">Record</string>
+    <string name="play_line">Play</string>
+    <string name="remove_recording">Remove Recording</string>
+    <string name="done">Done</string>
 </resources>
