@@ -1,7 +1,11 @@
 package com.mattvv.lineplease;
 
+import java.util.List;
+
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 import android.app.Activity;
@@ -13,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 public class AddLinesActivity extends Activity {
@@ -28,6 +33,11 @@ public class AddLinesActivity extends Activity {
 	
 	EditText character;
 	EditText line;
+	
+	RadioButton female;
+	RadioButton male;
+	
+	String gender = "female";
 	
 	static ParseObject lineObject;	
 	
@@ -50,6 +60,9 @@ public class AddLinesActivity extends Activity {
 		character = (EditText) findViewById(R.id.character);
 		line = (EditText) findViewById(R.id.line);
 		
+		female = (RadioButton) findViewById(R.id.radio_female);
+		male = (RadioButton) findViewById(R.id.radio_male);
+		
 		loading = (ProgressBar) findViewById(R.id.loading_add_lines);
 		loading.setVisibility(ProgressBar.INVISIBLE);
 		
@@ -61,6 +74,15 @@ public class AddLinesActivity extends Activity {
 				addLine.setText("Save");
 				character.setText(lineObject.getString("character"));
 				line.setText(lineObject.getString("line"));
+				gender = lineObject.getString("gender");
+				
+				if (gender.equals("male")) {
+					female.setChecked(false);
+					male.setChecked(true);
+				} else {
+					female.setChecked(true);
+					male.setChecked(false);
+				}
 			}
 		}
 	}
@@ -74,13 +96,16 @@ public class AddLinesActivity extends Activity {
 		}
 		
 
-		newLine.put("character", character.getText().toString());
+		newLine.put("character", character.getText().toString().toUpperCase());
 		newLine.put("scriptId", scriptId);
 		newLine.put("line", line.getText().toString());
+		newLine.put("gender", gender);
 		
 		loading.setVisibility(ProgressBar.VISIBLE);
 		back.setEnabled(false);
 		addLine.setEnabled(false);
+		
+		final ParseObject theLine = newLine;
 		
 		newLine.saveInBackground(new SaveCallback() {
 		    public void done(ParseException e) {
@@ -88,10 +113,28 @@ public class AddLinesActivity extends Activity {
 		    	back.setEnabled(true);
 		    	addLine.setEnabled(true);
 		        if (e == null) {
+		        	//todo save this bitch
+		    		ParseQuery query = new ParseQuery("Line");
+		    		query.whereEqualTo("scriptId", theLine.getObjectId());
+		    		query.findInBackground(new FindCallback() {
+		    		    public void done(List<ParseObject> lineList, ParseException e) {
+		    		        if (e == null) {
+		    		            for(ParseObject line : lineList) {
+		    		            	if (line.getString("character").equals(theLine.getString("character"))) {
+		    		            		line.put("character", theLine.getString("character"));
+		    		            		line.saveInBackground();
+		    		            	}
+		    		            }
+		    		        } else {
+		    		        }
+		    		    }
+		    		});
+		        	
 		        	Toast.makeText(ctx, "Saved Line", Toast.LENGTH_SHORT);
 		        	LinesActivity.scriptId = scriptId;
 		        	Intent intent = new Intent(ctx, LinesActivity.class);
 					startActivityForResult(intent, 0);
+					//todo: background update rest of chracters in script.
 		        } else {
 		            Toast.makeText(ctx, "Error Saving Line", Toast.LENGTH_LONG);
 		        }
@@ -118,4 +161,10 @@ public class AddLinesActivity extends Activity {
 			}
 		}
 	};	
+	
+	public void onRadioButtonClicked(View v) {
+	    // Perform action on clicks
+	    RadioButton rb = (RadioButton) v;
+	    gender = rb.getText().toString().toLowerCase();
+	}
 }

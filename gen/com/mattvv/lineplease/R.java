@@ -12,134 +12,158 @@ public final class R {
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int animationIn=0x7f010008;
+        public static final int animationIn=0x7f01000d;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int animationOut=0x7f010009;
+        public static final int animationOut=0x7f01000e;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int animationReverseIn=0x7f01000a;
+        public static final int animationReverseIn=0x7f01000f;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int animationReverseOut=0x7f01000b;
+        public static final int animationReverseOut=0x7f010010;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be an integer value, such as "<code>100</code>".
          */
-        public static final int animationSpeed=0x7f010013;
+        public static final int animationSpeed=0x7f010018;
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be an integer value, such as "<code>100</code>".
+         */
+        public static final int current=0x7f010003;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int deniedAccessImage=0x7f010005;
+        public static final int deniedAccessImage=0x7f01000a;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
          */
-        public static final int deniedAccessText=0x7f010004;
+        public static final int deniedAccessText=0x7f010009;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a boolean value, either "<code>true</code>" or "<code>false</code>".
          */
-        public static final int detatchFromList=0x7f010012;
+        public static final int detatchFromList=0x7f010017;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int displayedValues=0x7f010004;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a boolean value, either "<code>true</code>" or "<code>false</code>".
          */
-        public static final int hideListSelector=0x7f010019;
+        public static final int hideListSelector=0x7f01001e;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
          */
-        public static final int onValidate=0x7f010000;
+        public static final int onValidate=0x7f010005;
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be an integer value, such as "<code>100</code>".
+         */
+        public static final int rangeEnd=0x7f010001;
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be an integer value, such as "<code>100</code>".
+         */
+        public static final int rangeStart=0x7f010000;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
          */
-        public static final int rootDir=0x7f010006;
+        public static final int rootDir=0x7f01000b;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
          */
-        public static final int sambaPassword=0x7f010003;
+        public static final int sambaPassword=0x7f010008;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
          */
-        public static final int sambaUser=0x7f010002;
+        public static final int sambaUser=0x7f010007;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a boolean value, either "<code>true</code>" or "<code>false</code>".
          */
-        public static final int showFiles=0x7f010001;
+        public static final int showFiles=0x7f010006;
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be an integer value, such as "<code>100</code>".
+         */
+        public static final int speed=0x7f010002;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
          */
-        public static final int startOffset=0x7f010014;
+        public static final int startOffset=0x7f010019;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a boolean value, either "<code>true</code>" or "<code>false</code>".
          */
-        public static final int stickyStart=0x7f010016;
+        public static final int stickyStart=0x7f01001b;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
          */
-        public static final int stopOffset=0x7f010015;
+        public static final int stopOffset=0x7f01001a;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a boolean value, either "<code>true</code>" or "<code>false</code>".
          */
-        public static final int swipeOnClick=0x7f010017;
+        public static final int swipeOnClick=0x7f01001c;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a boolean value, either "<code>true</code>" or "<code>false</code>".
          */
-        public static final int swipeOnLongClick=0x7f010018;
+        public static final int swipeOnLongClick=0x7f01001d;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int tabContentseparator=0x7f01000e;
+        public static final int tabContentseparator=0x7f010013;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int tabLayout=0x7f01000c;
+        public static final int tabLayout=0x7f010011;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
          */
-        public static final int tabMinimumWidth=0x7f010011;
+        public static final int tabMinimumWidth=0x7f010016;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static final int tabScrollEdgeColor=0x7f01000f;
+        public static final int tabScrollEdgeColor=0x7f010014;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
          */
-        public static final int tabScrollEdgeWidth=0x7f010010;
+        public static final int tabScrollEdgeWidth=0x7f010015;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int tabSeparator=0x7f01000d;
+        public static final int tabSeparator=0x7f010012;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
          */
-        public static final int valueSeparator=0x7f010007;
+        public static final int valueSeparator=0x7f01000c;
     }
     public static final class drawable {
         public static final int background=0x7f020000;
@@ -164,57 +188,92 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int quickaction_urlopen=0x7f020013;
         public static final int quickaction_urlopen_normal=0x7f020014;
         public static final int quickaction_urlopen_pressed=0x7f020015;
-        public static final int register=0x7f020016;
-        public static final int rounded_edittext=0x7f020017;
-        public static final int tablebottom=0x7f020018;
-        public static final int tablemid=0x7f020019;
-        public static final int tabletop=0x7f02001a;
-        public static final int topbg=0x7f02001b;
+        public static final int radio=0x7f020016;
+        public static final int register=0x7f020017;
+        public static final int rounded_edittext=0x7f020018;
+        public static final int tablebottom=0x7f020019;
+        public static final int tablemid=0x7f02001a;
+        public static final int tabletop=0x7f02001b;
+        public static final int timepicker_down_btn=0x7f02001c;
+        public static final int timepicker_down_disabled=0x7f02001d;
+        public static final int timepicker_down_disabled_focused=0x7f02001e;
+        public static final int timepicker_down_normal=0x7f02001f;
+        public static final int timepicker_down_pressed=0x7f020020;
+        public static final int timepicker_down_selected=0x7f020021;
+        public static final int timepicker_input=0x7f020022;
+        public static final int timepicker_input_disabled=0x7f020023;
+        public static final int timepicker_input_normal=0x7f020024;
+        public static final int timepicker_input_pressed=0x7f020025;
+        public static final int timepicker_input_selected=0x7f020026;
+        public static final int timepicker_left_btn=0x7f020027;
+        public static final int timepicker_left_disabled=0x7f020028;
+        public static final int timepicker_left_disabled_focused=0x7f020029;
+        public static final int timepicker_left_normal=0x7f02002a;
+        public static final int timepicker_left_pressed=0x7f02002b;
+        public static final int timepicker_left_selected=0x7f02002c;
+        public static final int timepicker_right_btn=0x7f02002d;
+        public static final int timepicker_right_disabled=0x7f02002e;
+        public static final int timepicker_right_disabled_focused=0x7f02002f;
+        public static final int timepicker_right_normal=0x7f020030;
+        public static final int timepicker_right_pressed=0x7f020031;
+        public static final int timepicker_right_selected=0x7f020032;
+        public static final int timepicker_up_btn=0x7f020033;
+        public static final int timepicker_up_disabled=0x7f020034;
+        public static final int timepicker_up_disabled_focused=0x7f020035;
+        public static final int timepicker_up_normal=0x7f020036;
+        public static final int timepicker_up_pressed=0x7f020037;
+        public static final int timepicker_up_selected=0x7f020038;
+        public static final int topbg=0x7f020039;
     }
     public static final class id {
-        public static final int add=0x7f060010;
-        public static final int add_line=0x7f060007;
+        public static final int add=0x7f060012;
+        public static final int add_line=0x7f060009;
         public static final int add_lines=0x7f060000;
         public static final int add_lines_sublayout=0x7f060001;
         public static final int back_lines=0x7f060004;
-        public static final int back_record_lines=0x7f06001e;
-        public static final int cancel_reset_password=0x7f060027;
+        public static final int back_record_lines=0x7f060023;
+        public static final int cancel_reset_password=0x7f06002c;
         public static final int character=0x7f060005;
-        public static final int createNewAccount=0x7f060015;
-        public static final int create_account=0x7f06000c;
-        public static final int done=0x7f060024;
-        public static final int editText1=0x7f060019;
-        public static final int email=0x7f06000a;
-        public static final int facebook=0x7f060014;
+        public static final int createNewAccount=0x7f060017;
+        public static final int create_account=0x7f06000e;
+        public static final int decrement=0x7f06001c;
+        public static final int done=0x7f060029;
+        public static final int editText1=0x7f06001b;
+        public static final int email=0x7f06000c;
+        public static final int facebook=0x7f060016;
+        public static final int increment=0x7f06001e;
         public static final int line=0x7f060006;
-        public static final int linearLayout1=0x7f06000d;
-        public static final int listview=0x7f06002a;
-        public static final int listviewlines=0x7f060012;
-        public static final int loading=0x7f06000f;
+        public static final int linearLayout1=0x7f06000f;
+        public static final int listview=0x7f06002f;
+        public static final int listviewlines=0x7f060014;
+        public static final int loading=0x7f060011;
         public static final int loading_add_lines=0x7f060002;
-        public static final int loading_record_lines=0x7f06001d;
-        public static final int login=0x7f060013;
-        public static final int logout=0x7f060018;
-        public static final int password=0x7f060009;
-        public static final int play=0x7f060011;
-        public static final int play_line=0x7f060022;
-        public static final int record_line=0x7f060021;
-        public static final int record_lines_character=0x7f06001f;
-        public static final int record_lines_layout=0x7f06001a;
-        public static final int record_lines_line=0x7f060020;
-        public static final int record_lines_sublayout=0x7f06001b;
-        public static final int register=0x7f06000b;
-        public static final int remove_recording=0x7f060023;
-        public static final int resetPassword=0x7f060016;
-        public static final int reset_password=0x7f060025;
-        public static final int reset_password_button=0x7f060026;
+        public static final int loading_record_lines=0x7f060022;
+        public static final int login=0x7f060015;
+        public static final int logout=0x7f06001a;
+        public static final int password=0x7f06000b;
+        public static final int play=0x7f060013;
+        public static final int play_line=0x7f060027;
+        public static final int radio_female=0x7f060007;
+        public static final int radio_male=0x7f060008;
+        public static final int record_line=0x7f060026;
+        public static final int record_lines_character=0x7f060024;
+        public static final int record_lines_layout=0x7f06001f;
+        public static final int record_lines_line=0x7f060025;
+        public static final int record_lines_sublayout=0x7f060020;
+        public static final int register=0x7f06000d;
+        public static final int remove_recording=0x7f060028;
+        public static final int resetPassword=0x7f060018;
+        public static final int reset_password=0x7f06002a;
+        public static final int reset_password_button=0x7f06002b;
         public static final int save_topbar=0x7f060003;
-        public static final int search=0x7f060029;
-        public static final int stop=0x7f06000e;
-        public static final int stop_record_lines=0x7f06001c;
-        public static final int titleName=0x7f060017;
-        public static final int topBar=0x7f060028;
-        public static final int username=0x7f060008;
+        public static final int search=0x7f06002e;
+        public static final int stop=0x7f060010;
+        public static final int stop_record_lines=0x7f060021;
+        public static final int timepicker_input=0x7f06001d;
+        public static final int titleName=0x7f060019;
+        public static final int topBar=0x7f06002d;
+        public static final int username=0x7f06000a;
     }
     public static final class layout {
         public static final int add_lines=0x7f030000;
@@ -224,10 +283,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int listviewrow=0x7f030004;
         public static final int login=0x7f030005;
         public static final int maintitlebar=0x7f030006;
-        public static final int record_lines=0x7f030007;
-        public static final int reset_password=0x7f030008;
-        public static final int scripts=0x7f030009;
-        public static final int slim_dropdown_list_item=0x7f03000a;
+        public static final int number_picker_horizontal=0x7f030007;
+        public static final int number_picker_vertical=0x7f030008;
+        public static final int record_lines=0x7f030009;
+        public static final int reset_password=0x7f03000a;
+        public static final int scripts=0x7f03000b;
+        public static final int slim_dropdown_list_item=0x7f03000c;
     }
     public static final class string {
         public static final int add_button=0x7f050001;
@@ -240,7 +301,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int done=0x7f05000e;
         public static final int email=0x7f050008;
         public static final int empty=0x7f050003;
+        public static final int female=0x7f050012;
         public static final int line=0x7f050005;
+        public static final int male=0x7f050011;
         public static final int play_line=0x7f05000c;
         public static final int record_line=0x7f05000b;
         public static final int remove_recording=0x7f05000d;
@@ -251,10 +314,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class style {
         public static final int ButtonText=0x7f040000;
         public static final int CustomTheme=0x7f040001;
-        public static final int TopBarInput=0x7f040004;
-        public static final int View=0x7f040005;
-        public static final int addLinesInput=0x7f040003;
-        public static final int tableInput=0x7f040002;
+        public static final int RadioButton=0x7f040002;
+        public static final int TopBarInput=0x7f040005;
+        public static final int View=0x7f040006;
+        public static final int addLinesInput=0x7f040004;
+        public static final int tableInput=0x7f040003;
     }
     public static final class styleable {
         /** Attributes that can be used with a MultiSelectListPreference.
@@ -268,7 +332,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #MultiSelectListPreference_valueSeparator
          */
         public static final int[] MultiSelectListPreference = {
-            0x7f010007
+            0x7f01000c
         };
         /**
           <p>This symbol is the offset where the {@link com.mattvv.lineplease.R.attr#valueSeparator}
@@ -281,6 +345,90 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           @attr name android:valueSeparator
         */
         public static final int MultiSelectListPreference_valueSeparator = 0;
+        /** Attributes that can be used with a NumberPicker.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #NumberPicker_android_orientation com.mattvv.lineplease:android_orientation}</code></td><td></td></tr>
+           <tr><td><code>{@link #NumberPicker_current com.mattvv.lineplease:current}</code></td><td></td></tr>
+           <tr><td><code>{@link #NumberPicker_displayedValues com.mattvv.lineplease:displayedValues}</code></td><td></td></tr>
+           <tr><td><code>{@link #NumberPicker_rangeEnd com.mattvv.lineplease:rangeEnd}</code></td><td></td></tr>
+           <tr><td><code>{@link #NumberPicker_rangeStart com.mattvv.lineplease:rangeStart}</code></td><td></td></tr>
+           <tr><td><code>{@link #NumberPicker_speed com.mattvv.lineplease:speed}</code></td><td></td></tr>
+           </table>
+           @see #NumberPicker_android_orientation
+           @see #NumberPicker_current
+           @see #NumberPicker_displayedValues
+           @see #NumberPicker_rangeEnd
+           @see #NumberPicker_rangeStart
+           @see #NumberPicker_speed
+         */
+        public static final int[] NumberPicker = {
+            0x010100c4, 0x7f010000, 0x7f010001, 0x7f010002,
+            0x7f010003, 0x7f010004
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.mattvv.lineplease.R.attr#android_orientation}
+          attribute's value can be found in the {@link #NumberPicker} array.
+          @attr name android:android_orientation
+        */
+        public static final int NumberPicker_android_orientation = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.mattvv.lineplease.R.attr#current}
+          attribute's value can be found in the {@link #NumberPicker} array.
+
+
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be an integer value, such as "<code>100</code>".
+          @attr name android:current
+        */
+        public static final int NumberPicker_current = 4;
+        /**
+          <p>This symbol is the offset where the {@link com.mattvv.lineplease.R.attr#displayedValues}
+          attribute's value can be found in the {@link #NumberPicker} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name android:displayedValues
+        */
+        public static final int NumberPicker_displayedValues = 5;
+        /**
+          <p>This symbol is the offset where the {@link com.mattvv.lineplease.R.attr#rangeEnd}
+          attribute's value can be found in the {@link #NumberPicker} array.
+
+
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be an integer value, such as "<code>100</code>".
+          @attr name android:rangeEnd
+        */
+        public static final int NumberPicker_rangeEnd = 2;
+        /**
+          <p>This symbol is the offset where the {@link com.mattvv.lineplease.R.attr#rangeStart}
+          attribute's value can be found in the {@link #NumberPicker} array.
+
+
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be an integer value, such as "<code>100</code>".
+          @attr name android:rangeStart
+        */
+        public static final int NumberPicker_rangeStart = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.mattvv.lineplease.R.attr#speed}
+          attribute's value can be found in the {@link #NumberPicker} array.
+
+
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be an integer value, such as "<code>100</code>".
+          @attr name android:speed
+        */
+        public static final int NumberPicker_speed = 3;
         /** Attributes that can be used with a PathAutoComplete.
            <p>Includes the following attributes:</p>
            <table>
@@ -294,7 +442,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #PathAutoComplete_showFiles
          */
         public static final int[] PathAutoComplete = {
-            0x7f010001, 0x7f010006
+            0x7f010006, 0x7f01000b
         };
         /**
           <p>This symbol is the offset where the {@link com.mattvv.lineplease.R.attr#rootDir}
@@ -337,8 +485,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #SambaAutoComplete_showFiles
          */
         public static final int[] SambaAutoComplete = {
-            0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004,
-            0x7f010005
+            0x7f010006, 0x7f010007, 0x7f010008, 0x7f010009,
+            0x7f01000a
         };
         /**
           <p>This symbol is the offset where the {@link com.mattvv.lineplease.R.attr#deniedAccessImage}
@@ -419,8 +567,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #SwipeableListItem_swipeOnLongClick
          */
         public static final int[] SwipeableListItem = {
-            0x7f010012, 0x7f010013, 0x7f010014, 0x7f010015,
-            0x7f010016, 0x7f010017, 0x7f010018, 0x7f010019
+            0x7f010017, 0x7f010018, 0x7f010019, 0x7f01001a,
+            0x7f01001b, 0x7f01001c, 0x7f01001d, 0x7f01001e
         };
         /**
           <p>This symbol is the offset where the {@link com.mattvv.lineplease.R.attr#animationSpeed}
@@ -535,8 +683,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #TabManagerView_tabSeparator
          */
         public static final int[] TabManagerView = {
-            0x7f01000c, 0x7f01000d, 0x7f01000e, 0x7f01000f,
-            0x7f010010, 0x7f010011
+            0x7f010011, 0x7f010012, 0x7f010013, 0x7f010014,
+            0x7f010015, 0x7f010016
         };
         /**
           <p>This symbol is the offset where the {@link com.mattvv.lineplease.R.attr#tabContentseparator}
@@ -617,7 +765,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #ValidatedDialogPreference_onValidate
          */
         public static final int[] ValidatedDialogPreference = {
-            0x7f010000
+            0x7f010005
         };
         /**
           <p>This symbol is the offset where the {@link com.mattvv.lineplease.R.attr#onValidate}
@@ -647,7 +795,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #ViewStateFlipper_animationReverseOut
          */
         public static final int[] ViewStateFlipper = {
-            0x7f010008, 0x7f010009, 0x7f01000a, 0x7f01000b
+            0x7f01000d, 0x7f01000e, 0x7f01000f, 0x7f010010
         };
         /**
           <p>This symbol is the offset where the {@link com.mattvv.lineplease.R.attr#animationIn}

@@ -86,7 +86,7 @@ public class RegisterActivity extends Activity {
 						} else {
 							Log.e("Register failed", "Failed");
 							e.printStackTrace();
-							Toast.makeText(RegisterActivity.this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+							Toast.makeText(RegisterActivity.this, "Your registration failed, please try again", Toast.LENGTH_LONG).show();
 						}
 					}
 

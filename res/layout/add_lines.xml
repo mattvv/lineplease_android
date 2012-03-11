@@ -52,14 +52,40 @@
 		android:layout_height="10dip"
 		android:src="@drawable/empty">
 	</ImageView>
-	<EditText 
-		android:id="@+id/line"
-		android:hint="@string/line"
-		android:lines="5"
-		android:layout_height="200dip"
-		android:gravity="top"
-		style="@style/addLinesInput">
-	</EditText>	
+
+	<EditText
+	    android:id="@+id/line"
+	    style="@style/addLinesInput"
+	    android:layout_height="142dp"
+	    android:gravity="top"
+	    android:hint="@string/line"
+	    android:lines="5" >
+
+	</EditText>
+	  <RadioGroup
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:layout_marginTop="5dip"
+      android:orientation="horizontal">
+	      <RadioButton
+	          android:id="@+id/radio_female"
+	          android:layout_width="100dip"
+	          android:layout_height="wrap_content"
+	          android:onClick="onRadioButtonClicked"
+	          android:background="@drawable/button_black"
+	          android:gravity="center_horizontal"
+	          android:checked="true"
+	          android:text="@string/female" />
+
+	      <RadioButton android:id="@+id/radio_male"
+	          android:layout_width="100dip"
+	          android:layout_height="wrap_content"
+	          android:background="@drawable/button_black"
+	          android:gravity="center_horizontal"
+	          android:text="@string/male"
+	          android:onClick="onRadioButtonClicked"/>
+    </RadioGroup>	
 	<Button 
 		android:text="@string/add_line" 
 		android:id="@+id/add_line"

@@ -523,8 +523,9 @@ public class LinesActivity extends Activity implements OnInitListener,
 
 				if (e == null) {
 					for (int i = 0; i < lineList.size(); i++) {
-						lines.add(lineList.get(i).getString("character")
-								.toUpperCase()
+						String uppercaseCharacter = lineList.get(i).getString("character")
+						.toUpperCase(Locale.ENGLISH);
+						lines.add(uppercaseCharacter
 								+ "\n" + lineList.get(i).getString("line"));
 						lineObjects.add(lineList.get(i));
 					}

@@ -17,4 +17,6 @@
     <string name="done">Done</string>
     <string name="stop">Stop</string>
     <string name="save">Save</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
 </resources>
