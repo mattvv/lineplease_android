@@ -105,6 +105,14 @@ public class AddLinesActivity extends Activity {
 		back.setEnabled(false);
 		addLine.setEnabled(false);
 		
+		ParseQuery query = new ParseQuery("Line");
+		query.whereEqualTo("scriptId", scriptId);
+		try {
+			newLine.put("position", query.count());
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		} 
+		
 		final ParseObject theLine = newLine;
 		
 		newLine.saveInBackground(new SaveCallback() {

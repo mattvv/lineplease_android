@@ -514,7 +514,7 @@ public class LinesActivity extends Activity implements OnInitListener,
 
 		ParseQuery query = new ParseQuery("Line");
 		query.whereEqualTo("scriptId", scriptId);
-		query.orderByAscending("createdAt");
+		query.orderByAscending("position");
 		query.findInBackground(new FindCallback() {
 			@Override
 			public void done(List<ParseObject> lineList, ParseException e) {
