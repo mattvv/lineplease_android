@@ -77,13 +77,12 @@ public class ScriptsActivity extends Activity {
 			@Override
 			public void done(List<ParseObject> scriptList, ParseException e) {
 				if (e == null) {
-					for (int i = 0; i < scriptList.size(); i++)
-						try {
+					for (int i = 0; i < scriptList.size(); i++) {
+						if (scriptList.get(i).get("name") != null) {
 							scriptNames.add(scriptList.get(i).get("name").toString());
-							scriptIds.add(scriptList.get(i).objectId());
-						} catch (ParseException e1) {
-							e1.printStackTrace();
+							scriptIds.add(scriptList.get(i).getObjectId());
 						}
+					}
 					setListView();
 				} else
 					Log.d("script", "Error: " + e.getMessage());
